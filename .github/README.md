@@ -16,8 +16,8 @@ This is a beautifully designed Progressive Web App (PWA) with:
 
 ## Live Demo
 
-Visit [The Gatekeeper's Riddle](https://statikfintechllc.github.io/The-GateKeepers-Riddles.i/) to start playing immediately!
-                                https://statikfintechllc.github.io/The-GateKeepers-Riddles.i/
+Visit [The Gatekeeper's Riddle](https://statikfintechllc.github.io/The_GateKeepers_Riddles.i/) to start playing immediately!
+
 ## The Challenge
 
 Can you solve all the riddles? Test your logic, lateral thinking, and understanding of technology, philosophy, and digital identity. Each riddle explores different themes at the intersection of code, reflection, and consciousness. With More to come.
