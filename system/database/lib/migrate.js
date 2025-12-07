@@ -52,8 +52,8 @@ class DataMigrator {
         const metadata = repoMap.metadata || {};
         const repo = await this.db.getOrCreateRepository(
             'statikfintechllc',
-            'The_GateKeepers_Riddle.Interactive',
-            'https://github.com/statikfintechllc/The_GateKeepers_Riddle.Interactive'
+            'The_GateKeepers_Riddles.i',
+            'https://github.com/statikfintechllc/The_GateKeepers_Riddles.i'
         );
 
         await this.db.updateRepositoryStats(

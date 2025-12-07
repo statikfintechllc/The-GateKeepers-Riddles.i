@@ -1,4 +1,4 @@
-name: Auto-Assign Copilot to Riddle Requests
+name: Auto-Assign Copilot to Agent Requests
 
 on:
   issues:
@@ -11,7 +11,7 @@ permissions:
 jobs:
   assign-copilot:
     runs-on: ubuntu-latest
-    if: contains(github.event.issue.labels.*.name, 'riddle-request')
+    if: contains(github.event.issue.labels.*.name, 'riddle-request') || contains(github.event.issue.labels.*.name, 'mapper-request')
     steps: 
       - name: Assign GitHub Copilot agent to issue
         uses: actions/github-script@v7
@@ -105,21 +105,63 @@ jobs:
               
               console.log('✅ Successfully assigned Copilot to issue #' + context.issue.number);
               
-              // Add guidance comment
-              const commentBody = '🤖 **GitHub Copilot Agent has been assigned to this issue.**\n\n' +
-                'The Copilot agent will:\n' +
-                '1. Review the riddle-finder agent instructions in `.github/agents/riddle-finder.agent.md`\n' +
-                '2. Find or create a high-quality riddle following the guidelines\n' +
-                '3. Create a new riddle file in `system/riddles/`\n' +
-                '4. Update `system/riddles/riddles.js` to include the new riddle\n' +
-                '5. Open a pull request using the template in `.github/PULL_REQUEST_TEMPLATE/riddle_request.md`\n\n' +
-                '**IMPORTANT**: When opening the PR, please:\n' +
-                '- Use the PR template at `.github/PULL_REQUEST_TEMPLATE/riddle_request.md`\n' +
-                '- Check all boxes in the checklist\n' +
-                '- Ensure the PR can auto-merge without human intervention\n\n' +
-                'Please refer to the [riddle-finder agent documentation](.github/agents/riddle-finder.agent.md) for quality standards and output format.\n\n' +
-                '---\n' +
-                '*This is an automated workflow. The Copilot agent will begin working on this issue shortly.*';
+              // Determine which agent was requested
+              const isRiddleRequest = context.payload.issue.labels.some(label => label.name === 'riddle-request');
+              const isMapperRequest = context.payload.issue.labels.some(label => label.name === 'mapper-request');
+              
+              // Add guidance comment based on request type
+              let commentBody;
+              
+              if (isRiddleRequest) {
+                commentBody = '🤖 **GitHub Copilot Agent has been assigned to this issue.**\n\n' +
+                  'The Copilot agent will:\n' +
+                  '1. Review the riddle-finder agent instructions in `.github/agents/riddle-finder.agent.md`\n' +
+                  '2. Find or create a high-quality riddle following the guidelines\n' +
+                  '3. Create a new riddle file in `system/riddles/`\n' +
+                  '4. Update `system/riddles/riddles.js` to include the new riddle\n' +
+                  '5. Open a pull request using the template in `.github/PULL_REQUEST_TEMPLATE/riddle_request.md`\n\n' +
+                  '**IMPORTANT**: When opening the PR, please:\n' +
+                  '- Use the PR template at `.github/PULL_REQUEST_TEMPLATE/riddle_request.md`\n' +
+                  '- Check all boxes in the checklist\n' +
+                  '- Ensure the PR can auto-merge without human intervention\n\n' +
+                  'Please refer to the [riddle-finder agent documentation](.github/agents/riddle-finder.agent.md) for quality standards and output format.\n\n' +
+                  '---\n' +
+                  '*This is an automated workflow. The Copilot agent will begin working on this issue shortly.*';
+              } else if (isMapperRequest) {
+                commentBody = '🗺️ **GitHub Copilot Agent has been assigned to this issue.**\n\n' +
+                  'The Copilot agent will:\n' +
+                  '1. Review the repo-mapper agent instructions in `.github/agents/repo-mapper.agent.md`\n' +
+                  '2. Connect to the SQLite database in `system/database/`\n' +
+                  '3. Perform AI-powered code analysis of the repository\n' +
+                  '4. Extract functions, classes, and dependencies\n' +
+                  '5. Calculate complexity metrics\n' +
+                  '6. Update the database with comprehensive metadata\n' +
+                  '7. Generate output files:\n' +
+                  '   - `system/database/data/repo-map.json`\n' +
+                  '   - `system/database/data/code-index.json`\n' +
+                  '   - `system/database/data/ARCHITECTURE.md`\n' +
+                  '   - `system/database/data/metrics.json`\n' +
+                  '8. Open a pull request with the changes\n\n' +
+                  '**Database Integration**: The agent uses the comprehensive SQLite database system with:\n' +
+                  '- Full-text search (FTS5)\n' +
+                  '- Relational schema (20+ tables)\n' +
+                  '- Transaction support\n' +
+                  '- Scan history tracking\n\n' +
+                  '**Verification**: After mapping, you can verify with:\n' +
+                  '```bash\n' +
+                  'cd system/database\n' +
+                  'npm run stats\n' +
+                  './cli/repo-db.js files\n' +
+                  './cli/repo-db.js functions\n' +
+                  './cli/repo-db.js search "term"\n' +
+                  '```\n\n' +
+                  'Please refer to the [repo-mapper agent documentation](.github/agents/repo-mapper.agent.md) for detailed instructions.\n\n' +
+                  '---\n' +
+                  '*This is an automated workflow. The Copilot agent will begin working on this issue shortly.*';
+              } else {
+                commentBody = '⚠️ **Unable to determine request type for Copilot assignment.**\n\n' +
+                  'Neither `riddle-request` nor `mapper-request` labels are present. Please ensure the issue is correctly labeled and try again.';
+              }
               
               await github.rest.issues.createComment({
                 owner: context.repo.owner,

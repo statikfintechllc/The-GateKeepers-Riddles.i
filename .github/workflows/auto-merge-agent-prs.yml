@@ -1,0 +1,55 @@
+name: Auto-Merge Agent PRs
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened, ready_for_review]
+    branches:
+      - main
+      - master
+
+permissions:
+  pull-requests: write
+  contents: write
+
+jobs:
+  auto-merge:
+    runs-on: ubuntu-latest
+    # Only for agent PRs from Copilot bot
+    if: |
+      github.actor == 'github-copilot[bot]' && 
+      (contains(github.event.pull_request.labels.*.name, 'riddle-request') ||
+       contains(github.event.pull_request.labels.*.name, 'mapper-request') ||
+       contains(github.event.pull_request.labels.*.name, 'agent-request') ||
+       contains(github.event.pull_request.title, 'riddle') ||
+       contains(github.event.pull_request.title, 'Riddle') ||
+       contains(github.event.pull_request.title, 'mapper') ||
+       contains(github.event.pull_request.title, 'Mapper') ||
+       contains(github.event.pull_request.title, 'Repository Mapping'))
+    
+    steps:
+      - name: Check PR details
+        run: |
+          echo "🤖 Agent PR detected"
+          echo "Actor: ${{ github.actor }}"
+          echo "PR #: ${{ github.event.pull_request.number }}"
+          echo "Title: ${{ github.event.pull_request.title }}"
+          echo "Labels: ${{ join(github.event.pull_request.labels.*.name, ', ') }}"
+      
+      - name: Auto-approve Copilot PR
+        run: |
+          gh pr review --approve "${{ github.event.pull_request.number }}" \
+            --body "✅ Auto-approved: Copilot-generated agent PR (riddle/mapper)"
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      
+      - name: Enable auto-merge
+        run: |
+          gh pr merge --auto --squash "${{ github.event.pull_request.number }}"
+        env:
+          GH_TOKEN: ${{ secrets.PAT_GITHUB }}
+      
+      - name: Summary
+        if: always()
+        run: |
+          echo "✅ Auto-merge configured for PR #${{ github.event.pull_request.number }}"
+          echo "📊 PR will merge automatically once all checks pass"

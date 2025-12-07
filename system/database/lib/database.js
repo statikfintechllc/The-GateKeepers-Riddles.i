@@ -501,7 +501,7 @@ if (require.main === module) {
             console.log('Connected to database successfully!');
             
             // Example: Get repository metrics
-            const repo = await db.getOrCreateRepository('statikfintechllc', 'The_GateKeepers_Riddle.Interactive');
+            const repo = await db.getOrCreateRepository('statikfintechllc', 'The_GateKeepers_Riddles.i');
             console.log('Repository:', repo);
             
             const metrics = await db.getRepositoryMetrics(repo.id);
