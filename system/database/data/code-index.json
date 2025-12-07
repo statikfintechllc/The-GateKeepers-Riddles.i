@@ -207,7 +207,7 @@
       "type": "export"
     },
     "riddle": {
-      "file": "system/riddles/the-river-that-remembers.riddle.js",
+      "file": "system/riddles/riddle.template.js",
       "type": "export"
     },
     "riddles": {
@@ -231,5 +231,5 @@
       "type": "export"
     }
   },
-  "lastUpdated": "2025-12-07T21:46:49.895Z"
+  "lastUpdated": "2025-12-07T22:08:06.990Z"
 }

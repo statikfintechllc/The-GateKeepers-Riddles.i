@@ -1,9 +1,9 @@
 {
   "metadata": {
-    "lastUpdated": "2025-12-07T21:46:49.890Z",
+    "lastUpdated": "2025-12-07T22:08:06.986Z",
     "version": "1.0.0",
-    "totalFiles": 34,
-    "totalLines": 2886,
+    "totalFiles": 30,
+    "totalLines": 2667,
     "scanType": "full"
   },
   "structure": {
@@ -44,7 +44,7 @@
       "name": "_config.yml",
       "type": "yml",
       "purpose": "Supporting file",
-      "size": 745,
+      "size": 731,
       "lines": 0,
       "imports": [],
       "exports": [],
@@ -167,7 +167,7 @@
       "name": "ARCHITECTURE.md",
       "type": "md",
       "purpose": "Documentation",
-      "size": 1625,
+      "size": 1603,
       "lines": 0,
       "imports": [],
       "exports": [],
@@ -200,7 +200,7 @@
       "name": "repo-map.json",
       "type": "json",
       "purpose": "Supporting file",
-      "size": 14553,
+      "size": 13728,
       "lines": 0,
       "imports": [],
       "exports": [],
@@ -364,32 +364,6 @@
       "functions": [],
       "classes": []
     },
-    "system/riddles/gatekeeper.riddle.js": {
-      "name": "gatekeeper.riddle.js",
-      "type": "js",
-      "purpose": "Riddle data file",
-      "size": 1755,
-      "lines": 57,
-      "imports": [],
-      "exports": [
-        "riddle"
-      ],
-      "functions": [],
-      "classes": []
-    },
-    "system/riddles/mirror.riddle.js": {
-      "name": "mirror.riddle.js",
-      "type": "js",
-      "purpose": "Riddle data file",
-      "size": 1499,
-      "lines": 46,
-      "imports": [],
-      "exports": [
-        "riddle"
-      ],
-      "functions": [],
-      "classes": []
-    },
     "system/riddles/riddle.template.js": {
       "name": "riddle.template.js",
       "type": "js",
@@ -428,32 +402,6 @@
         "getRiddleCount",
         "getRiddleIndex"
       ],
-      "classes": []
-    },
-    "system/riddles/the-paradox-of-progress.riddle.js": {
-      "name": "the-paradox-of-progress.riddle.js",
-      "type": "js",
-      "purpose": "Riddle data file",
-      "size": 1495,
-      "lines": 47,
-      "imports": [],
-      "exports": [
-        "riddle"
-      ],
-      "functions": [],
-      "classes": []
-    },
-    "system/riddles/the-river-that-remembers.riddle.js": {
-      "name": "the-river-that-remembers.riddle.js",
-      "type": "js",
-      "purpose": "Riddle data file",
-      "size": 2639,
-      "lines": 69,
-      "imports": [],
-      "exports": [
-        "riddle"
-      ],
-      "functions": [],
       "classes": []
     },
     "system/scripts/l.h.s.script": {
@@ -505,12 +453,8 @@
       "system/js/sw.js"
     ],
     "data": [
-      "system/riddles/gatekeeper.riddle.js",
-      "system/riddles/mirror.riddle.js",
       "system/riddles/riddle.template.js",
-      "system/riddles/riddles.js",
-      "system/riddles/the-paradox-of-progress.riddle.js",
-      "system/riddles/the-river-that-remembers.riddle.js"
+      "system/riddles/riddles.js"
     ],
     "infrastructure": [],
     "documentation": [

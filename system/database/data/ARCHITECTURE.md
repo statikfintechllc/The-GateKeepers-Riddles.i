@@ -1,10 +1,10 @@
 # Repository Architecture
 
-Generated: 2025-12-07T21:46:49.895Z
+Generated: 2025-12-07T22:08:06.990Z
 
 ## Overview
 
-34 files | 2886 lines of code
+30 files | 2667 lines of code
 
 ## Structure
 
@@ -39,13 +39,9 @@ Generated: 2025-12-07T21:46:49.895Z
 - system/js/game.js
 - system/js/sw.js
 
-### Data Components (6)
-- system/riddles/gatekeeper.riddle.js
-- system/riddles/mirror.riddle.js
+### Data Components (2)
 - system/riddles/riddle.template.js
 - system/riddles/riddles.js
-- system/riddles/the-paradox-of-progress.riddle.js
-- system/riddles/the-river-that-remembers.riddle.js
 
 ### Infrastructure (0)
 
