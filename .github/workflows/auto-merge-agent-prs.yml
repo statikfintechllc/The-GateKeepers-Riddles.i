@@ -40,7 +40,7 @@ jobs:
           gh pr review --approve "${{ github.event.pull_request.number }}" \
             --body "✅ Auto-approved: Copilot-generated agent PR (riddle/mapper)"
         env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_TOKEN: ${{ secrets.PAT_GITHUB }}
       
       - name: Enable auto-merge
         run: |
