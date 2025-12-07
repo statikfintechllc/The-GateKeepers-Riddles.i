@@ -1,20 +1,7 @@
 name: Repository Mapper Agent
 
 on:
-  schedule:
-    # Run weekly on Sunday at midnight
-    - cron: '0 0 * * 0'
-  push:
-    branches:
-      - master
-      - main
-    paths:
-      - '**.js'
-      - '**.css'
-      - '**.html'
-      - 'system/**'
-      - '!system/database/data/**'
-  workflow_dispatch:  # Manual trigger
+  workflow_dispatch:  # Manual trigger only
     inputs:
       scan_type:
         description: 'Type of scan'
@@ -25,362 +12,57 @@ on:
           - full
           - incremental
           - quick
-  workflow_call:  # Callable by other workflows
-    inputs:
-      scan_type:
-        description: 'Type of scan'
-        required: false
-        default: 'incremental'
-        type: string
-    outputs:
-      files_mapped:
-        description: 'Number of files mapped'
-        value: ${{ jobs.map-repo.outputs.files_mapped }}
-      database_updated:
-        description: 'Whether database was updated'
-        value: ${{ jobs.map-repo.outputs.database_updated }}
 
 permissions:
   contents: write
+  pull-requests: write
+  issues: write
 
 jobs:
-  map-repo:
+  info:
     runs-on: ubuntu-latest
-    outputs:
-      files_mapped: ${{ steps.mapper.outputs.files_mapped }}
-      database_updated: ${{ steps.mapper.outputs.database_updated }}
-    
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
-      
-      - name: Set up Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: '20'
-      
-      - name: Load agent instructions
-        id: load-agent
+      - name: Workflow Information
         run: |
-          echo "Agent instructions loaded from .github/agents/repo-mapper.md"
-          cat .github/agents/repo-mapper.agent.md
-      
-      - name: Execute Repository Mapper Agent
-        id: mapper
-        run: |
-          node << 'MAPPER_SCRIPT'
-          const fs = require('fs');
-          const path = require('path');
-          
-          console.log('🗺️  Repository Mapper Agent activated');
-          
-          const scanType = process.env.SCAN_TYPE || 'full';
-          console.log(`   Scan Type: ${scanType}`);
-          
-          // Create data directory if it doesn't exist
-          // We prefer to store mapping data in the database folder to keep generated data separate
-          const dataDir = path.join(process.cwd(), 'system', 'database', 'data');
-          if (!fs.existsSync(dataDir)) {
-            fs.mkdirSync(dataDir, { recursive: true });
-          }
-          
-          // Recursive file scanner
-          function scanDirectory(dir, baseDir = process.cwd()) {
-            const files = [];
-            const items = fs.readdirSync(dir, { withFileTypes: true });
-            
-            for (const item of items) {
-              const fullPath = path.join(dir, item.name);
-              const relativePath = path.relative(baseDir, fullPath);
-              
-              // Skip ignored directories
-              if (item.isDirectory()) {
-                if (['.git', 'node_modules', '.github'].includes(item.name)) continue;
-                files.push(...scanDirectory(fullPath, baseDir));
-              } else {
-                files.push({
-                  path: relativePath,
-                  name: item.name,
-                  ext: path.extname(item.name),
-                  size: fs.statSync(fullPath).size
-                });
-              }
-            }
-            return files;
-          }
-          
-          // Analyze file content
-          function analyzeFile(filePath) {
-            const fullPath = path.join(process.cwd(), filePath);
-            const content = fs.readFileSync(fullPath, 'utf8');
-            const lines = content.split('\n');
-            
-            const analysis = {
-              lines: lines.length,
-              codeLines: lines.filter(l => l.trim() && !l.trim().startsWith('//')).length,
-              imports: [],
-              exports: [],
-              functions: [],
-              classes: []
-            };
-            
-            // Extract imports
-            const importRegex = /import\s+(?:{[^}]+}|\w+)\s+from\s+['"]([^'"]+)['"]/g;
-            let match;
-            while ((match = importRegex.exec(content)) !== null) {
-              analysis.imports.push(match[1]);
-            }
-            
-            // Extract exports
-            const exportRegex = /export\s+(?:const|let|var|function|class)\s+(\w+)/g;
-            while ((match = exportRegex.exec(content)) !== null) {
-              analysis.exports.push(match[1]);
-            }
-            
-            // Extract functions
-            const functionRegex = /function\s+(\w+)\s*\(/g;
-            while ((match = functionRegex.exec(content)) !== null) {
-              analysis.functions.push(match[1]);
-            }
-            
-            // Extract arrow functions
-            const arrowRegex = /(?:const|let|var)\s+(\w+)\s*=\s*(?:async\s+)?\([^)]*\)\s*=>/g;
-            while ((match = arrowRegex.exec(content)) !== null) {
-              analysis.functions.push(match[1]);
-            }
-            
-            // Extract classes
-            const classRegex = /class\s+(\w+)/g;
-            while ((match = classRegex.exec(content)) !== null) {
-              analysis.classes.push(match[1]);
-            }
-            
-            return analysis;
-          }
-          
-          // Get file purpose based on path and content
-          function getFilePurpose(file) {
-            const purposes = {
-              'index.html': 'Main application entry point',
-              'sw.js': 'Service worker for PWA offline support',
-              'manifest.json': 'PWA manifest configuration',
-              'game.js': 'Core game logic and UI interactions',
-              'game.css': 'Main stylesheet and visual styling',
-              'riddles.js': 'Riddle registry and loader',
-              'riddle.template.js': 'Template for creating new riddles'
-            };
-            
-            if (purposes[file.name]) return purposes[file.name];
-            if (file.path.includes('riddles/') && file.ext === '.js') return 'Riddle data file';
-            if (file.ext === '.md') return 'Documentation';
-            if (file.path.includes('.github/workflows')) return 'GitHub Actions workflow';
-            if (file.path.includes('.github/agents')) return 'Agent instructions';
-            return 'Supporting file';
-          }
-          
-          console.log('📊 Scanning repository...');
-          const files = scanDirectory(process.cwd());
-          console.log(`   Found ${files.length} files`);
-          
-          // Build repository map
-          const repoMap = {
-            metadata: {
-              lastUpdated: new Date().toISOString(),
-              version: '1.0.0',
-              totalFiles: files.length,
-              totalLines: 0,
-              scanType: scanType
-            },
-            structure: {
-              directories: [...new Set(files.map(f => path.dirname(f.path)))].sort(),
-              entryPoints: ['index.html', 'system/game.js'],
-              dependencies: {}
-            },
-            files: {},
-            components: {
-              ui: [],
-              logic: [],
-              data: [],
-              infrastructure: [],
-              documentation: []
-            },
-            relationships: {
-              dependencies: [],
-              usedBy: {}
-            }
-          };
-          
-          // Analyze each file
-          for (const file of files) {
-            const analysis = file.ext === '.js' ? analyzeFile(file.path) : { lines: 0 };
-            const purpose = getFilePurpose(file);
-            
-            repoMap.metadata.totalLines += analysis.lines || 0;
-            
-            repoMap.files[file.path] = {
-              name: file.name,
-              type: file.ext.slice(1),
-              purpose: purpose,
-              size: file.size,
-              lines: analysis.lines || 0,
-              imports: analysis.imports || [],
-              exports: analysis.exports || [],
-              functions: analysis.functions || [],
-              classes: analysis.classes || []
-            };
-            
-            // Categorize components
-            if (file.ext === '.html' || file.ext === '.css') {
-              repoMap.components.ui.push(file.path);
-            } else if (file.path.includes('riddles/')) {
-              repoMap.components.data.push(file.path);
-            } else if (file.ext === '.js' && !file.path.includes('riddles/')) {
-              repoMap.components.logic.push(file.path);
-            } else if (file.path.includes('.github') || file.name === 'sw.js') {
-              repoMap.components.infrastructure.push(file.path);
-            } else if (file.ext === '.md') {
-              repoMap.components.documentation.push(file.path);
-            }
-            
-            // Build dependency graph
-            if (analysis.imports && analysis.imports.length > 0) {
-              for (const imp of analysis.imports) {
-                repoMap.relationships.dependencies.push({
-                  from: file.path,
-                  to: imp,
-                  type: 'import'
-                });
-                
-                if (!repoMap.relationships.usedBy[imp]) {
-                  repoMap.relationships.usedBy[imp] = [];
-                }
-                repoMap.relationships.usedBy[imp].push(file.path);
-              }
-            }
-          }
-          
-          // Save repository map
-          const mapPath = path.join(dataDir, 'repo-map.json');
-          fs.writeFileSync(mapPath, JSON.stringify(repoMap, null, 2));
-          console.log(`✅ Repository map saved: ${mapPath}`);
-          
-          // Create code index
-          const codeIndex = {
-            functions: {},
-            exports: {},
-            lastUpdated: new Date().toISOString()
-          };
-          
-          for (const [filePath, fileData] of Object.entries(repoMap.files)) {
-            for (const func of fileData.functions || []) {
-              codeIndex.functions[func] = {
-                file: filePath,
-                type: 'function'
-              };
-            }
-            for (const exp of fileData.exports || []) {
-              codeIndex.exports[exp] = {
-                file: filePath,
-                type: 'export'
-              };
-            }
-          }
-          
-          const indexPath = path.join(dataDir, 'code-index.json');
-          fs.writeFileSync(indexPath, JSON.stringify(codeIndex, null, 2));
-          console.log(`✅ Code index saved: ${indexPath}`);
-          
-          // Generate architecture documentation
-          const archMd = `# Repository Architecture
-          
-          Generated: ${new Date().toISOString()}
-          
-          ## Overview
-          
-          ${repoMap.metadata.totalFiles} files | ${repoMap.metadata.totalLines} lines of code
-          
-          ## Structure
-          
-          \`\`\`
-          ${repoMap.structure.directories.map(d => '├── ' + d).join('\n')}
-          \`\`\`
-          
-          ## Components
-          
-          ### UI Components (${repoMap.components.ui.length})
-          ${repoMap.components.ui.map(f => `- ${f}`).join('\n')}
-          
-          ### Logic Components (${repoMap.components.logic.length})
-          ${repoMap.components.logic.map(f => `- ${f}`).join('\n')}
-          
-          ### Data Components (${repoMap.components.data.length})
-          ${repoMap.components.data.map(f => `- ${f}`).join('\n')}
-          
-          ### Infrastructure (${repoMap.components.infrastructure.length})
-          ${repoMap.components.infrastructure.map(f => `- ${f}`).join('\n')}
-          
-          ## Entry Points
-          
-          ${repoMap.structure.entryPoints.map(e => `- **${e}**: ${repoMap.files[e]?.purpose || 'Entry point'}`).join('\n')}
-          
-          ## Dependencies
-          
-          Total imports tracked: ${repoMap.relationships.dependencies.length}
-          
-          ## Key Files
-          
-          ${Object.entries(repoMap.files)
-            .filter(([_, data]) => data.functions?.length > 5 || data.exports?.length > 3)
-            .map(([path, data]) => `### ${path}
-          - **Purpose**: ${data.purpose}
-          - **Functions**: ${data.functions?.length || 0}
-          - **Exports**: ${data.exports?.length || 0}
-          - **Lines**: ${data.lines}
-          `).join('\n')}
-          
-          ---
-          
-          *Generated by [Repository Mapper Agent](.github/agents/repo-mapper.md)*
-          `;
-          
-          const archPath = path.join(dataDir, 'ARCHITECTURE.md');
-          fs.writeFileSync(archPath, archMd);
-          console.log(`✅ Architecture docs saved: ${archPath}`);
-          
-          // Output results
-          fs.appendFileSync(process.env.GITHUB_OUTPUT, `files_mapped=${files.length}\n`);
-          fs.appendFileSync(process.env.GITHUB_OUTPUT, `database_updated=true\n`);
-          
-          console.log('\n📊 Mapping Complete!');
-          console.log(`   Files: ${files.length}`);
-          console.log(`   Lines: ${repoMap.metadata.totalLines}`);
-          console.log(`   Functions: ${Object.keys(codeIndex.functions).length}`);
-          
-          MAPPER_SCRIPT
-        env:
-          SCAN_TYPE: ${{ inputs.scan_type }}
-      
-      - name: Commit database updates
-        if: steps.mapper.outputs.database_updated == 'true'
-        run: |
-          git config user.name "repo-mapper-agent[bot]"
-          git config user.email "repo-mapper-agent[bot]@users.noreply.github.com"
-          git add system/database/data/
-          git diff --staged --quiet || git commit -m "🗺️ Update repository map [skip ci]
-
-          - Mapped ${{ steps.mapper.outputs.files_mapped }} files
-          - Updated repo-map.json
-          - Updated code-index.json
-          - Generated ARCHITECTURE.md
-          
-          Generated by Repository Mapper Agent"
-          git push
-      
-      - name: Summary
-        if: always()
-        run: |
-          echo "✅ Repository mapping complete"
-          echo "📊 Files mapped: ${{ steps.mapper.outputs.files_mapped }}"
-          echo "💾 Database updated: ${{ steps.mapper.outputs.database_updated }}"
+          echo "🗺️ Repository Mapper Agent Workflow"
+          echo ""
+          echo "This workflow has been updated to work with GitHub Copilot agent."
+          echo ""
+          echo "**How to use:**"
+          echo "1. Create an issue with the 'mapper-request' label"
+          echo "2. The auto-assign workflow will assign github-copilot[bot] to the issue"
+          echo "3. GitHub Copilot agent will:"
+          echo "   - Read the repo-mapper agent instructions"
+          echo "   - Connect to SQLite database (system/database/)"
+          echo "   - Perform AI-powered code analysis"
+          echo "   - Extract functions, classes, dependencies"
+          echo "   - Calculate complexity metrics"
+          echo "   - Update database with metadata"
+          echo "   - Generate output files (repo-map.json, code-index.json, etc.)"
+          echo "   - Open a pull request for review"
+          echo ""
+          echo "**Manual trigger:**"
+          echo "This workflow can still be triggered manually via workflow_dispatch"
+          echo "for testing or special cases, but the primary flow is through"
+          echo "GitHub Copilot agent assignment to issues."
+          echo ""
+          echo "**Database Integration:**"
+          echo "The agent now uses the comprehensive SQLite database system"
+          echo "located in system/database/ with:"
+          echo "  - Full-text search (FTS5)"
+          echo "  - Relational schema (20+ tables)"
+          echo "  - Transaction support"
+          echo "  - Scan history tracking"
+          echo "  - CLI tools for querying"
+          echo ""
+          echo "**Verification:**"
+          echo "After mapping, verify with:"
+          echo "  cd system/database"
+          echo "  npm run stats"
+          echo "  ./cli/repo-db.js files"
+          echo "  ./cli/repo-db.js functions"
+          echo "  ./cli/repo-db.js search \"term\""
+          echo ""
+          echo "Scan Type: ${{ inputs.scan_type || 'full' }}"
+          echo ""
+          echo "For details, see: .github/agents/repo-mapper.agent.md"
