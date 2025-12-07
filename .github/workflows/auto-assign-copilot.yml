@@ -158,6 +158,9 @@ jobs:
                   'Please refer to the [repo-mapper agent documentation](.github/agents/repo-mapper.agent.md) for detailed instructions.\n\n' +
                   '---\n' +
                   '*This is an automated workflow. The Copilot agent will begin working on this issue shortly.*';
+              } else {
+                commentBody = '⚠️ **Unable to determine request type for Copilot assignment.**\n\n' +
+                  'Neither `riddle-request` nor `mapper-request` labels are present. Please ensure the issue is correctly labeled and try again.';
               }
               
               await github.rest.issues.createComment({

@@ -14,7 +14,7 @@ This pull request was generated for repository mapping. The Repo Mapper Agent (o
 2. Update the SQLite database with comprehensive metadata.
 3. Generate mapping artifacts (repo-map.json, code-index.json, ARCHITECTURE.md).
 4. Update the corresponding PR.
-5. Open and Merge after mapping is complete.
+5. open and merge after mapping is complete.
 
 **Expected timing:** Please allow ~5-10 minutes for automation to complete and database updates.
 
