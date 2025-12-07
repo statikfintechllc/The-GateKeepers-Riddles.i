@@ -1,6 +1,6 @@
 ---
 name: Riddle_Request_PR
-about: Used by the TGR github pages UI, opens a prebuilt PR with Copilot, fully managed open to merge by copilot.
+about: Used by the TGR github pages UI, opens a prebuilt PR with Copilot, fully managed open to merge by copilot. Do not request/nor assign `statikfintechllc` during the course of the PR. Once finished. Merge.
 title: "New Riddle Requested"
 labels: documentation, enhancement
 assignees: 
