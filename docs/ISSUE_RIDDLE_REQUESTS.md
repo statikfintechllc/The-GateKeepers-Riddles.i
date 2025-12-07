@@ -49,7 +49,7 @@ Issue Created → Detected → Request PR Created → Copilot Assigned → Copil
 
 **Creating a Riddle Request:**
 
-1. Go to the [Issues](https://github.com/statikfintechllc/The_GateKeepers_Riddles.i/issues) tab
+1. Go to the [Issues](https://github.com/statikfintechllc/The-GateKeepers-Riddles.i/issues) tab
 2. Click "New Issue"
 3. Use the "Riddle_Request" template (or create a custom issue)
 4. Include "Riddle" or "Poem" in the title, **OR**
@@ -163,7 +163,7 @@ The handler intentionally avoids posting frequent comments on the originating is
 
 ### Viewing Workflow Runs
 
-1. Go to the [Actions](https://github.com/statikfintechllc/The_GateKeepers_Riddles.i/actions) tab
+1. Go to the [Actions](https://github.com/statikfintechllc/The-GateKeepers-Riddles.i/actions) tab
 2. Select "Issue Riddle Request Handler" from the workflows list
 3. View recent runs and their status
 

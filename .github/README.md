@@ -16,7 +16,7 @@ This is a beautifully designed Progressive Web App (PWA) with:
 
 ## Live Demo
 
-Visit [The Gatekeeper's Riddle](https://statikfintechllc.github.io/The_GateKeepers_Riddles.i/) to start playing immediately!
+Visit [The Gatekeeper's Riddle](https://statikfintechllc.github.io/The-GateKeepers-Riddles.i/) to start playing immediately!
                                 https://statikfintechllc.github.io/The-GateKeepers-Riddles.i/
 ## The Challenge
 
@@ -290,7 +290,7 @@ This repository includes two intelligent automation systems plus a UI-initiated 
 </div>
 <div align="center">
 
-  <br/> [© 2025 StatikFinTech, LLC](https://www.github.com/statikfintechllc/The_GateKeepers_Riddles.i/blob/master/LICENSE.md)
+  <br/> [© 2025 StatikFinTech, LLC](https://www.github.com/statikfintechllc/The-GateKeepers-Riddles.i/blob/master/LICENSE.md)
 
   <a href="https://github.com/statikfintechllc">
     <img src="https://img.shields.io/badge/-000000?logo=github&logoColor=white&style=flat-square" alt="GitHub">
