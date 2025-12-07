@@ -1,6 +1,6 @@
 ---
 name: Mapper_Request_PR
-about: Used for repository mapping requests, fully managed open to merge by copilot.
+about: Used for repository mapping requests, fully managed open to merge by copilot. Do not request/nor assign `statikfintechllc` during the course of the PR. Once finished. Merge.
 title: "Repository Mapping Requested"
 labels: documentation, enhancement, mapper-request
 assignees: 
