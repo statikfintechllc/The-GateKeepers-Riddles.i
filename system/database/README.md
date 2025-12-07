@@ -117,7 +117,7 @@ const RepositoryDatabase = require('./lib/database');
     // Get repository info
     const repo = await db.getOrCreateRepository(
         'statikfintechllc', 
-        'The_GateKeepers_Riddles.i'
+        'The-GateKeepers-Riddles.i'
     );
 
     // Add a file

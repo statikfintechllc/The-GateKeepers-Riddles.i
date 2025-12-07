@@ -3,7 +3,7 @@
 
 const GITHUB_TOKEN_KEY = 'github_token';
 const GITHUB_REPO_OWNER = 'statikfintechllc';
-const GITHUB_REPO_NAME = 'The_GateKeepers_Riddles.i';
+const GITHUB_REPO_NAME = 'The-GateKeepers-Riddles.i';
 
 // Check if user is authenticated
 export function isAuthenticated() {
