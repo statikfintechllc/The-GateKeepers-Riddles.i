@@ -1,0 +1,480 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Gatekeeper's Riddle - Login</title>
+    <meta name="description" content="Enter to unlock the mysteries within">
+    <meta name="theme-color" content="#64ffda">
+    
+    <!-- Content Security Policy -->
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:; connect-src 'self' https://api.github.com https://github.com; font-src 'self'; frame-ancestors 'none'; base-uri 'self'; form-action 'self';">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="system/storage/icon.logo.png">
+    <link rel="apple-touch-icon" href="system/storage/icon.logo.png">
+    
+    <!-- PWA Manifest -->
+    <link rel="manifest" href="system/storage/manifest.json">
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html, body {
+            height: 100%;
+            width: 100%;
+            overflow: hidden;
+            background: #000000;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+        }
+
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: #e0e0e0;
+            position: relative;
+            background: linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 100%);
+        }
+
+        /* Full screen black background that covers everything including browser chrome */
+        body::before {
+            content: '';
+            position: fixed;
+            top: -100px;
+            left: 0;
+            right: 0;
+            bottom: -100px;
+            background: #000000;
+            z-index: -1;
+        }
+
+        .login-container {
+            width: 90%;
+            max-width: 500px;
+            max-height: 95vh;
+            padding: 20px 25px;
+            background: rgba(26, 26, 46, 0.8);
+            backdrop-filter: blur(10px);
+            border-radius: 16px;
+            box-shadow: 0 8px 32px rgba(100, 255, 218, 0.1);
+            border: 1px solid rgba(100, 255, 218, 0.1);
+            text-align: center;
+            overflow-y: auto;
+        }
+
+        .logo-container {
+            margin-bottom: 15px;
+        }
+
+        .logo {
+            width: 100px;
+            height: auto;
+            filter: drop-shadow(0 0 15px rgba(100, 255, 218, 0.3));
+        }
+
+        h1 {
+            color: #64ffda;
+            font-size: clamp(1.5rem, 4.5vw, 2rem);
+            margin-bottom: 5px;
+            text-shadow: 0 0 15px rgba(100, 255, 218, 0.3);
+        }
+
+        .subtitle {
+            color: #b0b0b0;
+            font-style: italic;
+            font-size: clamp(0.9rem, 2.5vw, 1rem);
+            margin-bottom: 20px;
+        }
+
+        .info-box {
+            background: rgba(100, 255, 218, 0.05);
+            border-left: 3px solid #64ffda;
+            padding: 12px 15px;
+            margin-bottom: 20px;
+            text-align: left;
+            border-radius: 6px;
+        }
+
+        .info-box h3 {
+            color: #64ffda;
+            font-size: 0.95rem;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .info-box ol {
+            margin-left: 18px;
+            color: #e0e0e0;
+            line-height: 1.5;
+            font-size: 0.85rem;
+        }
+
+        .info-box li {
+            margin-bottom: 5px;
+        }
+
+        .info-box code {
+            background: rgba(0, 0, 0, 0.3);
+            padding: 1px 4px;
+            border-radius: 3px;
+            color: #64ffda;
+            font-size: 0.8em;
+        }
+
+        .info-box a {
+            color: #64ffda;
+            text-decoration: none;
+            border-bottom: 1px dotted #64ffda;
+            transition: all 0.3s ease;
+        }
+
+        .info-box a:hover {
+            color: #fff;
+            border-bottom-color: #fff;
+        }
+        
+        .info-box p {
+            font-size: 0.85rem;
+            margin-bottom: 15px;
+        }
+            margin-bottom: 10px;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        label {
+            display: block;
+            text-align: left;
+            color: #64ffda;
+            font-weight: 500;
+            margin-bottom: 8px;
+            font-size: 0.9rem;
+        }
+
+        input[type="password"],
+        input[type="text"] {
+            width: 100%;
+            padding: 12px;
+            background: rgba(0, 0, 0, 0.3);
+            border: 2px solid rgba(100, 255, 218, 0.2);
+            border-radius: 8px;
+            color: #e0e0e0;
+            font-size: 0.9rem;
+            font-family: 'Courier New', monospace;
+            transition: all 0.3s ease;
+        }
+
+        input[type="password"]:focus,
+        input[type="text"]:focus {
+            outline: none;
+            border-color: #64ffda;
+            box-shadow: 0 0 15px rgba(100, 255, 218, 0.2);
+        }
+
+        input::placeholder {
+            color: #666;
+        }
+
+        .button-container {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        button {
+            width: 100%;
+            padding: 12px;
+            background: #64ffda;
+            color: #0a0a0a;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        button:hover {
+            background: #fff;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(100, 255, 218, 0.4);
+        }
+
+        button:active {
+            transform: translateY(0);
+        }
+
+        button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .skip-link {
+            margin-top: 15px;
+            font-size: 0.85rem;
+            color: #888;
+        }
+
+        .skip-link a {
+            color: #64ffda;
+            text-decoration: none;
+            border-bottom: 1px dotted #64ffda;
+            transition: all 0.3s ease;
+        }
+
+        .skip-link a:hover {
+            color: #fff;
+            border-bottom-color: #fff;
+        }
+
+        .error-message {
+            background: rgba(255, 77, 77, 0.1);
+            border: 1px solid #ff4d4d;
+            color: #ff4d4d;
+            padding: 10px;
+            border-radius: 6px;
+            margin-bottom: 15px;
+            display: none;
+            font-size: 0.85rem;
+        }
+
+        .success-message {
+            background: rgba(100, 255, 218, 0.1);
+            border: 1px solid #64ffda;
+            color: #64ffda;
+            padding: 10px;
+            border-radius: 6px;
+            margin-bottom: 15px;
+            display: none;
+            font-size: 0.85rem;
+        }
+
+        .privacy-note {
+            margin-top: 15px;
+            font-size: 0.75rem;
+            color: #888;
+            line-height: 1.4;
+        }
+
+        .privacy-note a {
+            color: #64ffda;
+            text-decoration: none;
+        }
+
+        .privacy-note a:hover {
+            text-decoration: underline;
+        }
+
+        @media (max-height: 700px) {
+            .login-container {
+                padding: 15px 20px;
+                margin: 10px 0;
+            }
+
+            .logo {
+                width: 80px;
+            }
+
+            .info-box {
+                padding: 10px 12px;
+            }
+            
+            .logo-container {
+                margin-bottom: 10px;
+            }
+            
+            h1 {
+                font-size: clamp(1.3rem, 4vw, 1.8rem);
+                margin-bottom: 3px;
+            }
+            
+            .subtitle {
+                margin-bottom: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="login-container">
+        <div class="logo-container">
+            <img src="system/storage/icon.logo.png" alt="The Gatekeeper's Riddle Logo" class="logo">
+        </div>
+        
+        <h1>The Gatekeeper's Riddle</h1>
+        <p class="subtitle">Enter to unlock the mysteries within</p>
+        
+        <div class="info-box">
+            <h3>🔐 GitHub Token Required</h3>
+            <p>To request AI-curated riddles, you need a GitHub Personal Access Token:</p>
+            <ol>
+                <li>Go to <a href="https://github.com/settings/tokens/new" target="_blank" rel="noopener noreferrer">GitHub Token Settings</a></li>
+                <li>Click "Generate new token (classic)"</li>
+                <li>Name it "Gatekeeper Riddle App"</li>
+                <li>Select scope: <code>public_repo</code></li>
+                <li>Generate and copy the token</li>
+                <li>Paste it below</li>
+            </ol>
+        </div>
+
+        <div id="errorMessage" class="error-message" aria-live="assertive"></div>
+        <div id="successMessage" class="success-message" aria-live="polite"></div>
+
+        <form id="loginForm">
+            <div class="form-group">
+                <label for="tokenInput">GitHub Personal Access Token</label>
+                <input 
+                    type="password" 
+                    id="tokenInput" 
+                    placeholder="ghp_xxxxxxxxxxxxxxxxxxxx"
+                    autocomplete="one-time-code"
+                    required
+                >
+            </div>
+
+            <div class="button-container">
+                <button type="submit" id="loginButton">Enter the Riddle</button>
+            </div>
+        </form>
+
+        <div class="skip-link">
+            <a href="system/riddle.html">Continue without login (limited features)</a>
+        </div>
+
+        <div class="privacy-note">
+            <p>🔒 Your token is stored locally and never sent to any server except GitHub's API. <a href="https://github.com/statikfintechllc/The_GateKeepers_Riddle.Interactive" target="_blank" rel="noopener noreferrer">Learn more</a></p>
+        </div>
+    </div>
+
+    <script type="module">
+        import { saveGitHubToken, isValidTokenFormat, verifyToken, redirectToApp, isAuthenticated } from './system/js/auth.js';
+
+        // Check if user is already authenticated, redirect to app
+        // Note: We only check token existence, not validity, for performance
+        // Invalid/expired tokens will fail gracefully when AI features are used
+        if (isAuthenticated()) {
+            redirectToApp();
+        }
+
+        const form = document.getElementById('loginForm');
+        const tokenInput = document.getElementById('tokenInput');
+        const loginButton = document.getElementById('loginButton');
+        const errorMessage = document.getElementById('errorMessage');
+        const successMessage = document.getElementById('successMessage');
+
+        function showError(message) {
+            errorMessage.textContent = message;
+            errorMessage.style.display = 'block';
+            successMessage.style.display = 'none';
+        }
+
+        function showSuccess(message) {
+            successMessage.textContent = message;
+            successMessage.style.display = 'block';
+            errorMessage.style.display = 'none';
+        }
+
+        function hideMessages() {
+            errorMessage.style.display = 'none';
+            successMessage.style.display = 'none';
+        }
+
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            hideMessages();
+
+            const token = tokenInput.value.trim();
+
+            // Basic validation
+            if (!token) {
+                showError('Please enter your GitHub token');
+                return;
+            }
+
+            if (!isValidTokenFormat(token)) {
+                showError('Invalid token format. Token should start with "ghp_" or "github_pat_"');
+                return;
+            }
+
+            // Disable button while verifying
+            loginButton.disabled = true;
+            loginButton.textContent = 'Verifying...';
+
+            try {
+                // Verify token with GitHub API
+                const isValid = await verifyToken(token);
+
+                if (!isValid) {
+                    showError('Invalid token or insufficient permissions. Please check your token and try again.');
+                    loginButton.disabled = false;
+                    loginButton.textContent = 'Enter the Riddle';
+                    return;
+                }
+
+                // Save token
+                try {
+                    saveGitHubToken(token);
+                } catch (saveError) {
+                    showError('Failed to save token locally. Please check your browser settings.');
+                    loginButton.disabled = false;
+                    loginButton.textContent = 'Enter the Riddle';
+                    return;
+                }
+                
+                showSuccess('Authentication successful! Redirecting...');
+
+                // Redirect to app
+                setTimeout(() => {
+                    redirectToApp();
+                }, 1500);
+
+            } catch (error) {
+                console.error('Login error:', error);
+                showError('An error occurred. Please try again.');
+                loginButton.disabled = false;
+                loginButton.textContent = 'Enter the Riddle';
+            }
+        });
+
+        // Clear token input on page load for security
+        tokenInput.value = '';
+
+        // Register Service Worker for PWA support
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                // Get the base path for proper service worker registration
+                // Extract base path by removing the HTML filename from current path
+                const currentPath = window.location.pathname;
+                let basePath = currentPath.substring(0, currentPath.lastIndexOf('/'));
+                
+                // If we're at root (basePath would be empty), use empty string
+                // Otherwise basePath will be like '/The_GateKeepers_Riddle.Interactive' or ''
+                const swPath = basePath ? `${basePath}/system/js/sw.js` : '/system/js/sw.js';
+                const scope = basePath ? `${basePath}/` : '/';
+                
+                navigator.serviceWorker.register(swPath, { 
+                    scope: scope
+                })
+                    .then((registration) => {
+                        console.log('Service Worker registered successfully:', registration.scope);
+                    })
+                    .catch((error) => {
+                        console.error('Service Worker registration failed:', error);
+                    });
+            });
+        }
+    </script>
+</body>
+</html>
+

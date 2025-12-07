@@ -1,0 +1,19 @@
+{
+  "name": "The Gatekeeper's Riddle",
+  "short_name": "Gatekeeper",
+  "description": "A multi-riddle interactive web game that challenges players to solve philosophical puzzles about AI, code agents, and digital identity.",
+  "start_url": "../../",
+  "scope": "../../",
+  "display": "standalone",
+  "background_color": "#0a0a0a",
+  "theme_color": "#64ffda",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "icon.logo.png",
+      "sizes": "860x844",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}

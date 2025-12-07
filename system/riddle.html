@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Gatekeeper's Riddle</title>
+    <meta name="description" content="An interactive riddle game exploring themes of AI, code agents, and digital identity.">
+    <meta name="theme-color" content="#64ffda">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="storage/icon.logo.png">
+    <link rel="apple-touch-icon" href="storage/icon.logo.png">
+    
+    <!-- PWA Manifest -->
+    <link rel="manifest" href="storage/manifest.json">
+    
+    <link rel="stylesheet" href="css/game.css">
+</head>
+<body>
+    <!-- Floating Help Buttons -->
+    <button class="floating-btn help-btn" onclick="showHelpModal()" aria-label="How to Play">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="10"></circle>
+            <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path>
+            <line x1="12" y1="17" x2="12.01" y2="17"></line>
+        </svg>
+    </button>
+    
+    <button class="floating-btn hint-btn" onclick="showHintModal()" aria-label="Get Hints">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M9 18h6"></path>
+            <path d="M10 22h4"></path>
+            <path d="M15.09 14c.18-.98.65-1.74 1.41-2.5A4.65 4.65 0 0 0 18 8 6 6 0 0 0 6 8c0 1 .23 2.23 1.5 3.5A4.61 4.61 0 0 1 8.91 14"></path>
+        </svg>
+    </button>
+
+    <div class="container">
+        <p class="subtitle">Try your luck and wit to the:</p>
+        <h1 id="riddleTitle">The Gatekeeper's Riddle</h1>
+        
+        <div class="riddle" id="riddleText">
+            Loading riddle...
+        </div>
+
+    <div class="input-section">
+        <div class="attempts" id="attempts">Attempts: 0</div>
+        <div class="input-container">
+            <input 
+                type="text" 
+                id="guessInput" 
+                placeholder="Enter your answer..."
+                autocomplete="off"
+            >
+            <div class="compact-button-bar" id="compactButtonBar">
+                <button class="bubble-btn" id="prevBtn" onclick="previousRiddle()" title="Previous Riddle" aria-label="Previous Riddle">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <polyline points="15 18 9 12 15 6"></polyline>
+                    </svg>
+                </button>
+                <button class="bubble-btn submit-bubble" onclick="checkAnswer()" title="Submit Guess" aria-label="Submit Guess">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <polyline points="20 6 9 17 4 12"></polyline>
+                    </svg>
+                </button>
+                <button class="bubble-btn" onclick="showRiddleSelector()" title="Select Riddle" aria-label="Select Riddle">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <line x1="8" y1="6" x2="21" y2="6"></line>
+                        <line x1="8" y1="12" x2="21" y2="12"></line>
+                        <line x1="8" y1="18" x2="21" y2="18"></line>
+                        <line x1="3" y1="6" x2="3.01" y2="6"></line>
+                        <line x1="3" y1="12" x2="3.01" y2="12"></line>
+                        <line x1="3" y1="18" x2="3.01" y2="18"></line>
+                    </svg>
+                </button>
+                <div class="bubble-dropdown">
+                    <button class="bubble-btn" onclick="toggleMoreMenu()" title="More Options" aria-label="More Options">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <circle cx="12" cy="12" r="1"></circle>
+                            <circle cx="12" cy="5" r="1"></circle>
+                            <circle cx="12" cy="19" r="1"></circle>
+                        </svg>
+                    </button>
+                    <div class="bubble-dropdown-menu" id="moreMenu">
+                        <button onclick="try { giveUp(); } finally { toggleMoreMenu(); }" aria-label="Give up and reveal the answer">Give Up</button>
+                        <button onclick="showRequestRiddleMenu()" aria-label="Request a new riddle">Request Riddle</button>
+                        <button onclick="try { handleAuthAction(); } finally { toggleMoreMenu(); }" id="authButton" aria-label="Login or Logout">Login</button>
+                        <button onclick="try { refreshApp(); } finally { toggleMoreMenu(); }" aria-label="Clear cache and refresh the application">Refresh App</button>
+                    </div>
+                </div>
+                <button class="bubble-btn" id="nextBtn" onclick="nextRiddle()" title="Next Riddle" aria-label="Next Riddle">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <polyline points="9 18 15 12 9 6"></polyline>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        
+        <div class="feedback" id="feedback"></div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="copyright">
+                <a href="https://github.com/statikfintechllc/The_GateKeepers_Riddle.Interactive" target="_blank" rel="noopener noreferrer">GitHub Repository</a> | © 2025 <a href="https://github.com/statikfintechllc/The_GateKeepers_Riddle.Interactive/blob/master/LICENSE" target="_blank" rel="noopener noreferrer">StatikFinTech, LLC</a>
+            </div>
+            <div class="social-links">
+                <a href="https://github.com/statikfintechllc" target="_blank" rel="noopener noreferrer" aria-label="Visit our GitHub profile">
+                    <img src="https://img.shields.io/badge/-000000?logo=github&logoColor=white&style=flat-square" alt="GitHub">
+                </a>
+                <a href="https://www.linkedin.com/in/daniel-morris-780804368" target="_blank" rel="noopener noreferrer" aria-label="Visit our LinkedIn profile">
+                    <img src="https://img.shields.io/badge/In-e11d48?logo=linkedin&logoColor=white&style=flat-square" alt="LinkedIn">
+                </a>
+                <a href="mailto:ascend.gremlin@gmail.com" aria-label="Send us an email">
+                    <img src="https://img.shields.io/badge/-D14836?logo=gmail&logoColor=white&style=flat-square" alt="Email">
+                </a>
+                <a href="https://www.youtube.com/@Gremlins_Forge" target="_blank" rel="noopener noreferrer" aria-label="Visit our YouTube channel">
+                    <img src="https://img.shields.io/badge/-FF0000?logo=youtube&logoColor=white&style=flat-square" alt="YouTube">
+                </a>
+                <a href="https://x.com/GremlinsForge" target="_blank" rel="noopener noreferrer" aria-label="Visit our X (Twitter) profile">
+                    <img src="https://img.shields.io/badge/-000000?logo=x&logoColor=white&style=flat-square" alt="X">
+                </a>
+                <a href="https://medium.com/@ascend.gremlin" target="_blank" rel="noopener noreferrer" aria-label="Visit our Medium blog">
+                    <img src="https://img.shields.io/badge/-000000?logo=medium&logoColor=white&style=flat-square" alt="Medium">
+                </a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Modal -->
+<div class="modal" id="modal">
+    <div class="modal-content">
+        <img src="storage/icon.logo.png" alt="Gatekeeper Logo" class="modal-icon">
+        <h2 id="modalTitle">The Answer</h2>
+        <p id="modalMessage"></p>
+        <p class="answer-text"></p>
+        <p class="explanation-text" style="font-size: 0.9rem; color: #888; font-style: italic;"></p>
+        <button class="close-modal" onclick="closeModal()">Close</button>
+    </div>
+</div>
+
+<!-- Riddle Selector Modal -->
+<div class="modal" id="riddleSelectorModal">
+    <div class="modal-content riddle-selector">
+        <h2>📚 Select a Riddle</h2>
+        <div class="riddle-grid" id="riddleGrid">
+            <!-- Riddles will be populated here dynamically -->
+        </div>
+        <button class="close-modal" onclick="closeRiddleSelector()">Close</button>
+    </div>
+</div>
+
+<!-- Help Modal -->
+<div class="modal" id="helpModal">
+    <div class="modal-content">
+        <h2>📖 How to Play</h2>
+        <div class="help-content">
+            <p>1. Read the riddle carefully</p>
+            <p>2. Enter your answer in the input field</p>
+            <p>3. Click "Submit Guess" or press Enter</p>
+            <p>4. Keep trying or click "Give Up" to reveal the answer</p>
+            <br>
+            <p><strong>Tip:</strong> The riddle explores themes of reflection, inheritance, and what it means to build with tools that mirror ourselves.</p>
+        </div>
+        <button class="close-modal" onclick="closeHelpModal()">Close</button>
+    </div>
+</div>
+
+<!-- Hint Modal -->
+<div class="modal" id="hintModal">
+    <div class="modal-content">
+        <h2>💡 Hints</h2>
+        <div class="hint-content">
+            <!-- Hints will be populated dynamically based on current riddle -->
+        </div>
+        <button class="close-modal" onclick="closeHintModal()">Close</button>
+    </div>
+</div>
+
+<!-- Request Riddle Sub-Popup Modal -->
+<div class="modal" id="requestRiddleModal">
+    <div class="modal-content">
+        <h2>🎯 Request a Riddle</h2>
+        <div class="request-options">
+            <button class="request-option-btn" onclick="requestViaEmail()">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+                    <polyline points="22,6 12,13 2,6"></polyline>
+                </svg>
+                <span>Email Request</span>
+                <p class="option-description">Send your riddle idea via email</p>
+            </button>
+            <button class="request-option-btn" onclick="requestAICurated()">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <circle cx="12" cy="12" r="10"></circle>
+                    <path d="M12 16v-4"></path>
+                    <path d="M12 8h.01"></path>
+                </svg>
+                <span>AI Curated</span>
+                <p class="option-description">Request AI to find a challenging riddle</p>
+            </button>
+        </div>
+        <button class="close-modal" onclick="closeRequestRiddleModal()">Close</button>
+    </div>
+</div>
+
+    <script src="js/game.js" type="module"></script>
+</body>
+</html>

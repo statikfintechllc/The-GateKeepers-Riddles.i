@@ -1,0 +1,151 @@
+name: Auto-Assign Copilot to Riddle Requests
+
+on:
+  issues:
+    types: [opened, reopened]
+
+permissions:
+  issues: write
+  contents: read
+
+jobs:
+  assign-copilot:
+    runs-on: ubuntu-latest
+    if: contains(github.event.issue.labels.*.name, 'riddle-request')
+    steps: 
+      - name: Assign GitHub Copilot agent to issue
+        uses: actions/github-script@v7
+        with:
+          github-token: ${{ secrets.PAT_GITHUB }}
+          script: |
+            try {
+              // Step 1: Get the repository node ID
+              const repoQuery = `
+                query {
+                  repository(owner: "${context.repo.owner}", name: "${context.repo.repo}") {
+                    id
+                  }
+                }
+              `;
+              
+              const repoResult = await github.graphql(repoQuery);
+              const repositoryId = repoResult.repository.id;
+              
+              // Step 2: Get Copilot bot ID
+              const botQuery = `
+                query {
+                  repository(owner: "${context.repo.owner}", name: "${context.repo.repo}") {
+                    suggestedActors(capabilities: [CAN_BE_ASSIGNED], first: 100) {
+                      nodes {
+                        login
+                        __typename
+                        ... on Bot { id }
+                      }
+                    }
+                  }
+                }
+              `;
+              
+              const botResult = await github.graphql(botQuery, {
+                headers: {
+                  'GraphQL-Features': 'issues_copilot_assignment_api_support'
+                }
+              });
+              
+              const copilotBot = botResult.repository.suggestedActors.nodes.find(
+                actor => actor.__typename === 'Bot' && actor.login.includes('copilot')
+              );
+              
+              if (!copilotBot) {
+                throw new Error('Copilot bot not found in repository');
+              }
+              
+              console.log('Found Copilot bot:', copilotBot.login);
+              
+              // Step 3: Get the issue node ID
+              const issueQuery = `
+                query {
+                  repository(owner: "${context.repo.owner}", name: "${context.repo.repo}") {
+                    issue(number: ${context.issue.number}) {
+                      id
+                    }
+                  }
+                }
+              `;
+              
+              const issueResult = await github.graphql(issueQuery);
+              const issueId = issueResult.repository.issue.id;
+              
+              // Step 4: Assign Copilot to the issue
+              const assignMutation = `
+                mutation {
+                  addAssigneesToAssignable(input: {
+                    assignableId: "${issueId}",
+                    assigneeIds: ["${copilotBot.id}"]
+                  }) {
+                    assignable {
+                      ... on Issue {
+                        number
+                        assignees(first: 10) {
+                          nodes {
+                            login
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              `;
+              
+              await github.graphql(assignMutation, {
+                headers: {
+                  'GraphQL-Features': 'issues_copilot_assignment_api_support'
+                }
+              });
+              
+              console.log('✅ Successfully assigned Copilot to issue #' + context.issue.number);
+              
+              // Add guidance comment
+              const commentBody = '🤖 **GitHub Copilot Agent has been assigned to this issue.**\n\n' +
+                'The Copilot agent will:\n' +
+                '1. Review the riddle-finder agent instructions in `.github/agents/riddle-finder.agent.md`\n' +
+                '2. Find or create a high-quality riddle following the guidelines\n' +
+                '3. Create a new riddle file in `system/riddles/`\n' +
+                '4. Update `system/riddles/riddles.js` to include the new riddle\n' +
+                '5. Open a pull request using the template in `.github/PULL_REQUEST_TEMPLATE/riddle_request.md`\n\n' +
+                '**IMPORTANT**: When opening the PR, please:\n' +
+                '- Use the PR template at `.github/PULL_REQUEST_TEMPLATE/riddle_request.md`\n' +
+                '- Check all boxes in the checklist\n' +
+                '- Ensure the PR can auto-merge without human intervention\n\n' +
+                'Please refer to the [riddle-finder agent documentation](.github/agents/riddle-finder.agent.md) for quality standards and output format.\n\n' +
+                '---\n' +
+                '*This is an automated workflow. The Copilot agent will begin working on this issue shortly.*';
+              
+              await github.rest.issues.createComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: context.issue.number,
+                body: commentBody
+              });
+              
+              console.log('✅ Added guidance comment to issue');
+              
+            } catch (error) {
+              console.error('❌ Failed to assign Copilot:', error.message);
+              core.setFailed(error.message);
+              
+              const errorBody = '⚠️ **Unable to auto-assign GitHub Copilot agent**\n\n' +
+                'Error: ' + error.message + '\n\n' +
+                'Please manually assign the GitHub Copilot agent to this issue, or contact a repository maintainer.';
+              
+              try {
+                await github.rest.issues.createComment({
+                  owner: context.repo.owner,
+                  repo: context.repo.repo,
+                  issue_number: context.issue.number,
+                  body: errorBody
+                });
+              } catch (commentError) {
+                console.error('❌ Also failed to add error comment:', commentError.message);
+              }
+            }

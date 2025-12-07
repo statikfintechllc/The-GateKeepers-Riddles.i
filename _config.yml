@@ -1,0 +1,32 @@
+# Jekyll Configuration for GitHub Pages
+# This configuration is needed to properly serve the service worker with correct headers
+
+# Exclude files from Jekyll processing
+exclude:
+  - README.md
+  - LICENSE
+  - .gitignore
+  - .github/
+
+# Include all files (don't skip hidden files)
+include:
+  - system/js/sw.js
+
+# Webrick headers for service worker (local development)
+webrick:
+  headers:
+    system/js/sw.js:
+      Service-Worker-Allowed: "/"
+      Content-Type: "application/javascript; charset=utf-8"
+
+# Keep the site structure as-is
+keep_files:
+  - system
+
+# Disable Jekyll processing for these directories
+# This ensures our JS modules work correctly
+defaults:
+  - scope:
+      path: "system/js"
+    values:
+      sitemap: false

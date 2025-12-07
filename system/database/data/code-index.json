@@ -1,0 +1,235 @@
+{
+  "functions": {
+    "isAuthenticated": {
+      "file": "system/js/auth.js",
+      "type": "function"
+    },
+    "getGitHubToken": {
+      "file": "system/js/auth.js",
+      "type": "function"
+    },
+    "saveGitHubToken": {
+      "file": "system/js/auth.js",
+      "type": "function"
+    },
+    "clearGitHubToken": {
+      "file": "system/js/auth.js",
+      "type": "function"
+    },
+    "isValidTokenFormat": {
+      "file": "system/js/auth.js",
+      "type": "function"
+    },
+    "verifyToken": {
+      "file": "system/js/auth.js",
+      "type": "function"
+    },
+    "createRiddleRequestPullRequest": {
+      "file": "system/js/auth.js",
+      "type": "function"
+    },
+    "createRiddleRequestIssue": {
+      "file": "system/js/auth.js",
+      "type": "function"
+    },
+    "openGitHubPullRequestTemplate": {
+      "file": "system/js/auth.js",
+      "type": "function"
+    },
+    "redirectToLogin": {
+      "file": "system/js/auth.js",
+      "type": "function"
+    },
+    "redirectToApp": {
+      "file": "system/js/auth.js",
+      "type": "function"
+    },
+    "loadProgress": {
+      "file": "system/js/game.js",
+      "type": "function"
+    },
+    "saveProgress": {
+      "file": "system/js/game.js",
+      "type": "function"
+    },
+    "loadCurrentRiddleIndex": {
+      "file": "system/js/game.js",
+      "type": "function"
+    },
+    "saveCurrentRiddleIndex": {
+      "file": "system/js/game.js",
+      "type": "function"
+    },
+    "initGame": {
+      "file": "system/js/game.js",
+      "type": "function"
+    },
+    "loadRiddle": {
+      "file": "system/js/game.js",
+      "type": "function"
+    },
+    "previousRiddle": {
+      "file": "system/js/game.js",
+      "type": "function"
+    },
+    "nextRiddle": {
+      "file": "system/js/game.js",
+      "type": "function"
+    },
+    "updateNavigationButtons": {
+      "file": "system/js/game.js",
+      "type": "function"
+    },
+    "showRiddleSelector": {
+      "file": "system/js/game.js",
+      "type": "function"
+    },
+    "closeRiddleSelector": {
+      "file": "system/js/game.js",
+      "type": "function"
+    },
+    "showRequestRiddleMenu": {
+      "file": "system/js/game.js",
+      "type": "function"
+    },
+    "closeRequestRiddleModal": {
+      "file": "system/js/game.js",
+      "type": "function"
+    },
+    "requestViaEmail": {
+      "file": "system/js/game.js",
+      "type": "function"
+    },
+    "requestAICurated": {
+      "file": "system/js/game.js",
+      "type": "function"
+    },
+    "toggleMoreMenu": {
+      "file": "system/js/game.js",
+      "type": "function"
+    },
+    "refreshApp": {
+      "file": "system/js/game.js",
+      "type": "function"
+    },
+    "checkAnswer": {
+      "file": "system/js/game.js",
+      "type": "function"
+    },
+    "giveUp": {
+      "file": "system/js/game.js",
+      "type": "function"
+    },
+    "showModal": {
+      "file": "system/js/game.js",
+      "type": "function"
+    },
+    "closeModal": {
+      "file": "system/js/game.js",
+      "type": "function"
+    },
+    "showHelpModal": {
+      "file": "system/js/game.js",
+      "type": "function"
+    },
+    "closeHelpModal": {
+      "file": "system/js/game.js",
+      "type": "function"
+    },
+    "showHintModal": {
+      "file": "system/js/game.js",
+      "type": "function"
+    },
+    "closeHintModal": {
+      "file": "system/js/game.js",
+      "type": "function"
+    },
+    "updateAuthButton": {
+      "file": "system/js/game.js",
+      "type": "function"
+    },
+    "handleAuthAction": {
+      "file": "system/js/game.js",
+      "type": "function"
+    },
+    "getBasePath": {
+      "file": "system/js/sw.js",
+      "type": "function"
+    },
+    "getRiddleById": {
+      "file": "system/riddles/riddles.js",
+      "type": "function"
+    },
+    "getRiddleByIndex": {
+      "file": "system/riddles/riddles.js",
+      "type": "function"
+    },
+    "getRiddleCount": {
+      "file": "system/riddles/riddles.js",
+      "type": "function"
+    },
+    "getRiddleIndex": {
+      "file": "system/riddles/riddles.js",
+      "type": "function"
+    }
+  },
+  "exports": {
+    "isAuthenticated": {
+      "file": "system/js/auth.js",
+      "type": "export"
+    },
+    "getGitHubToken": {
+      "file": "system/js/auth.js",
+      "type": "export"
+    },
+    "saveGitHubToken": {
+      "file": "system/js/auth.js",
+      "type": "export"
+    },
+    "clearGitHubToken": {
+      "file": "system/js/auth.js",
+      "type": "export"
+    },
+    "isValidTokenFormat": {
+      "file": "system/js/auth.js",
+      "type": "export"
+    },
+    "openGitHubPullRequestTemplate": {
+      "file": "system/js/auth.js",
+      "type": "export"
+    },
+    "redirectToLogin": {
+      "file": "system/js/auth.js",
+      "type": "export"
+    },
+    "redirectToApp": {
+      "file": "system/js/auth.js",
+      "type": "export"
+    },
+    "riddle": {
+      "file": "system/riddles/the-river-that-remembers.riddle.js",
+      "type": "export"
+    },
+    "riddles": {
+      "file": "system/riddles/riddles.js",
+      "type": "export"
+    },
+    "getRiddleById": {
+      "file": "system/riddles/riddles.js",
+      "type": "export"
+    },
+    "getRiddleByIndex": {
+      "file": "system/riddles/riddles.js",
+      "type": "export"
+    },
+    "getRiddleCount": {
+      "file": "system/riddles/riddles.js",
+      "type": "export"
+    },
+    "getRiddleIndex": {
+      "file": "system/riddles/riddles.js",
+      "type": "export"
+    }
+  },
+  "lastUpdated": "2025-12-07T21:46:49.895Z"
+}

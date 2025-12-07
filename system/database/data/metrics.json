@@ -1,0 +1,384 @@
+{
+  "metadata": {
+    "generated": "2025-12-05T20:52:00.000Z",
+    "version": "1.0.0",
+    "repository": "statikfintechllc/The_GateKeepers_Riddle.Interactive"
+  },
+  "overview": {
+    "totalFiles": 27,
+    "totalLines": 5352,
+    "totalSize": 299815,
+    "totalSizeFormatted": "292.79 KB"
+  },
+  "languages": {
+    "JavaScript": {
+      "files": 8,
+      "percentage": 29.6,
+      "primaryFiles": [
+        "system/js/game.js",
+        "system/js/auth.js",
+        "system/js/sw.js",
+        "system/riddles/riddles.js"
+      ]
+    },
+    "CSS": {
+      "files": 1,
+      "percentage": 3.7,
+      "primaryFiles": ["system/css/game.css"]
+    },
+    "HTML": {
+      "files": 2,
+      "percentage": 7.4,
+      "primaryFiles": ["index.html", "system/riddle.html"]
+    },
+    "Markdown": {
+      "files": 6,
+      "percentage": 22.2,
+      "primaryFiles": [
+        ".github/README.md",
+        "system/data/ARCHITECTURE.md"
+      ]
+    },
+    "JSON": {
+      "files": 3,
+      "percentage": 11.1,
+      "primaryFiles": [
+        "system/storage/manifest.json",
+        "system/data/repo-map.json",
+        "system/data/code-index.json"
+      ]
+    },
+    "YAML": {
+      "files": 4,
+      "percentage": 14.8,
+      "primaryFiles": [
+        ".github/workflows/repo-mapper-agent.yml",
+        ".github/workflows/riddle-finder-agent.yml"
+      ]
+    },
+    "Image": {
+      "files": 1,
+      "percentage": 3.7
+    },
+    "Other": {
+      "files": 2,
+      "percentage": 7.4
+    }
+  },
+  "codeMetrics": {
+    "functions": {
+      "total": 38,
+      "byFile": {
+        "system/js/game.js": 27,
+        "system/js/auth.js": 10,
+        "system/riddles/riddles.js": 4
+      },
+      "averagePerFile": 4.75,
+      "exported": 23,
+      "internal": 15,
+      "async": 3
+    },
+    "exports": {
+      "total": 23,
+      "byFile": {
+        "system/js/auth.js": 10,
+        "system/riddles/riddles.js": 5,
+        "system/riddles/gatekeeper.riddle.js": 1,
+        "system/riddles/mirror.riddle.js": 1,
+        "system/riddles/the-paradox-of-progress.riddle.js": 1,
+        "system/riddles/riddle.template.js": 1
+      }
+    },
+    "imports": {
+      "total": 8,
+      "byFile": {
+        "system/js/game.js": 2,
+        "system/riddles/riddles.js": 3,
+        "index.html": 1
+      }
+    },
+    "constants": {
+      "total": 5,
+      "byFile": {
+        "system/js/auth.js": 3,
+        "system/js/sw.js": 2
+      }
+    },
+    "classes": {
+      "total": 0
+    },
+    "eventListeners": {
+      "total": 15,
+      "types": [
+        "DOMContentLoaded",
+        "submit",
+        "click",
+        "keypress",
+        "keydown",
+        "install",
+        "activate",
+        "fetch"
+      ],
+      "byFile": {
+        "system/js/game.js": 12,
+        "index.html": 1,
+        "system/js/sw.js": 3
+      }
+    }
+  },
+  "fileMetrics": {
+    "largest": {
+      "bySize": [
+        {
+          "file": "system/storage/icon.logo.png",
+          "size": 124761,
+          "sizeFormatted": "121.84 KB"
+        },
+        {
+          "file": "system/js/game.js",
+          "size": 17314,
+          "sizeFormatted": "16.91 KB"
+        },
+        {
+          "file": "index.html",
+          "size": 14320,
+          "sizeFormatted": "13.98 KB"
+        }
+      ],
+      "byLines": [
+        {
+          "file": "system/css/game.css",
+          "lines": 638
+        },
+        {
+          "file": "system/js/game.js",
+          "lines": 547
+        },
+        {
+          "file": "index.html",
+          "lines": 470
+        }
+      ]
+    },
+    "averageFileSize": 11104,
+    "averageFileSizeFormatted": "10.84 KB",
+    "averageLinesPerFile": 198
+  },
+  "componentMetrics": {
+    "ui": {
+      "files": 3,
+      "totalLines": 1318,
+      "percentage": 24.6
+    },
+    "logic": {
+      "files": 3,
+      "totalLines": 779,
+      "percentage": 14.5
+    },
+    "data": {
+      "files": 5,
+      "totalLines": 257,
+      "percentage": 4.8
+    },
+    "infrastructure": {
+      "files": 6,
+      "totalLines": 500,
+      "percentage": 9.3
+    },
+    "documentation": {
+      "files": 6,
+      "totalLines": 800,
+      "percentage": 14.9
+    }
+  },
+  "riddleMetrics": {
+    "total": 3,
+    "averageLines": 49,
+    "totalCorrectAnswers": 22,
+    "totalCloseAnswers": 21,
+    "totalHints": 18,
+    "riddles": [
+      {
+        "id": "gatekeeper",
+        "file": "system/riddles/gatekeeper.riddle.js",
+        "lines": 56,
+        "correctAnswers": 9,
+        "closeAnswers": 9,
+        "hints": 6,
+        "theme": "AI and code agents"
+      },
+      {
+        "id": "mirror",
+        "file": "system/riddles/mirror.riddle.js",
+        "lines": 45,
+        "correctAnswers": 8,
+        "closeAnswers": 7,
+        "hints": 6,
+        "theme": "Algorithms and reflection"
+      },
+      {
+        "id": "the-paradox-of-progress",
+        "file": "system/riddles/the-paradox-of-progress.riddle.js",
+        "lines": 46,
+        "correctAnswers": 5,
+        "closeAnswers": 5,
+        "hints": 6,
+        "theme": "Knowledge and learning"
+      }
+    ]
+  },
+  "cssMetrics": {
+    "file": "system/css/game.css",
+    "lines": 638,
+    "selectors": "~150",
+    "customProperties": 1,
+    "mediaQueries": 2,
+    "keyComponents": [
+      "Floating buttons",
+      "Riddle container",
+      "Modal system",
+      "Button bar",
+      "Animations"
+    ],
+    "breakpoints": [
+      "max-height: 700px",
+      "max-width: 600px"
+    ]
+  },
+  "apiMetrics": {
+    "totalEndpoints": 2,
+    "provider": "GitHub REST API v3",
+    "endpoints": [
+      {
+        "path": "/user",
+        "method": "GET",
+        "purpose": "Token verification",
+        "usedBy": "verifyToken"
+      },
+      {
+        "path": "/repos/{owner}/{repo}/issues",
+        "method": "POST",
+        "purpose": "Create riddle request",
+        "usedBy": "createRiddleRequestIssue"
+      }
+    ],
+    "authenticationRequired": true,
+    "rateLimitMonitoring": true
+  },
+  "storageMetrics": {
+    "localStorageKeys": 3,
+    "keys": [
+      {
+        "name": "github_token",
+        "type": "string",
+        "purpose": "GitHub authentication"
+      },
+      {
+        "name": "riddleProgress",
+        "type": "JSON",
+        "purpose": "Progress tracking"
+      },
+      {
+        "name": "currentRiddleIndex",
+        "type": "number",
+        "purpose": "Last viewed riddle"
+      }
+    ],
+    "serviceWorkerCache": {
+      "name": "gatekeeper-riddle-v5",
+      "cachedResources": 11,
+      "strategy": "Cache-first with network fallback"
+    }
+  },
+  "automationMetrics": {
+    "totalWorkflows": 3,
+    "workflows": [
+      {
+        "name": "Repository Mapper Agent",
+        "file": ".github/workflows/repo-mapper-agent.yml",
+        "lines": 386,
+        "schedule": "Weekly (Sunday midnight)",
+        "triggers": [
+          "schedule",
+          "push",
+          "workflow_dispatch",
+          "workflow_call"
+        ]
+      },
+      {
+        "name": "Riddle Finder Agent",
+        "file": ".github/workflows/riddle-finder-agent.yml",
+        "schedule": "Daily",
+        "triggers": ["schedule", "workflow_dispatch"]
+      },
+      {
+        "name": "Issue Riddle Request Handler",
+        "file": ".github/workflows/issue-riddle-request.yml",
+        "triggers": ["issues"]
+      }
+    ]
+  },
+  "dependencyMetrics": {
+    "externalDependencies": 0,
+    "internalDependencies": 8,
+    "dependencyGraph": {
+      "depth": 3,
+      "maxImportsPerFile": 5,
+      "mostImportedFile": "system/js/auth.js",
+      "mostImportingFile": "system/js/game.js"
+    }
+  },
+  "qualityMetrics": {
+    "modularity": "High - clear separation of concerns",
+    "maintainability": "High - template-based extensibility",
+    "documentation": "Comprehensive - auto-generated",
+    "testCoverage": "None - no automated tests",
+    "codeComplexity": "Low to Medium - straightforward logic",
+    "securityFeatures": [
+      "Content Security Policy",
+      "Token validation",
+      "Rate limit monitoring",
+      "Client-side only storage"
+    ]
+  },
+  "performanceMetrics": {
+    "totalBundleSize": "~45 KB (without images)",
+    "imageSize": "~122 KB",
+    "estimatedLoadTime": "<1s on 3G",
+    "offlineCapable": true,
+    "cacheStrategy": "Aggressive caching via service worker",
+    "optimizations": [
+      "No external dependencies",
+      "ES6 modules (tree-shakeable)",
+      "Inline critical CSS on login page",
+      "Service worker caching"
+    ]
+  },
+  "growthMetrics": {
+    "riddleGrowthPotential": "Unlimited via template system",
+    "automatedRiddleAddition": true,
+    "communityContributions": "Supported via GitHub issues/PRs",
+    "scalability": "Excellent - static files only"
+  },
+  "insights": {
+    "strengths": [
+      "Zero external dependencies",
+      "Full PWA capabilities",
+      "Automated maintenance",
+      "Template-based extensibility",
+      "Comprehensive documentation",
+      "Mobile-optimized",
+      "GitHub integration"
+    ],
+    "potentialImprovements": [
+      "Add automated tests",
+      "Implement analytics",
+      "Add more riddles",
+      "Enhance accessibility features",
+      "Add multiplayer features",
+      "Implement leaderboards"
+    ],
+    "technicalDebt": "Minimal - clean codebase",
+    "maintenanceLevel": "Low - self-documenting via automation"
+  }
+}

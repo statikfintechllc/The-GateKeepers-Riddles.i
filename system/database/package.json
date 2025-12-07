@@ -1,0 +1,39 @@
+{
+  "name": "@gatekeepers-riddle/database",
+  "version": "1.0.0",
+  "description": "State-of-the-art database system for The Gatekeeper's Riddle repository management",
+  "main": "lib/database.js",
+  "bin": {
+    "repo-db": "./cli/repo-db.js"
+  },
+  "scripts": {
+    "init": "bash ./lib/init_db.sh",
+    "migrate": "node ./lib/migrate.js",
+    "cli": "node ./cli/repo-db.js",
+    "stats": "node ./cli/repo-db.js stats",
+    "backup": "node ./cli/repo-db.js backup",
+    "test": "node ./lib/database.js"
+  },
+  "keywords": [
+    "database",
+    "sqlite",
+    "repository",
+    "mono-repo",
+    "code-analysis"
+  ],
+  "author": "StatikFinTech, LLC",
+  "license": "MIT",
+  "dependencies": {
+    "sqlite3": "^5.1.7",
+    "commander": "^12.1.0",
+    "cli-table3": "^0.6.5"
+  },
+  "devDependencies": {},
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/statikfintechllc/The_GateKeepers_Riddle.Interactive"
+  }
+}

@@ -1,0 +1,581 @@
+{
+  "metadata": {
+    "lastUpdated": "2025-12-07T21:46:49.890Z",
+    "version": "1.0.0",
+    "totalFiles": 34,
+    "totalLines": 2886,
+    "scanType": "full"
+  },
+  "structure": {
+    "directories": [
+      ".",
+      "docs",
+      "system",
+      "system/css",
+      "system/database",
+      "system/database/cli",
+      "system/database/data",
+      "system/database/lib",
+      "system/database/schema",
+      "system/js",
+      "system/riddles",
+      "system/scripts",
+      "system/storage"
+    ],
+    "entryPoints": [
+      "index.html",
+      "system/game.js"
+    ],
+    "dependencies": {}
+  },
+  "files": {
+    "LICENSE": {
+      "name": "LICENSE",
+      "type": "",
+      "purpose": "Supporting file",
+      "size": 1088,
+      "lines": 0,
+      "imports": [],
+      "exports": [],
+      "functions": [],
+      "classes": []
+    },
+    "_config.yml": {
+      "name": "_config.yml",
+      "type": "yml",
+      "purpose": "Supporting file",
+      "size": 745,
+      "lines": 0,
+      "imports": [],
+      "exports": [],
+      "functions": [],
+      "classes": []
+    },
+    "docs/AUTOMATED_RIDDLES.md": {
+      "name": "AUTOMATED_RIDDLES.md",
+      "type": "md",
+      "purpose": "Documentation",
+      "size": 6577,
+      "lines": 0,
+      "imports": [],
+      "exports": [],
+      "functions": [],
+      "classes": []
+    },
+    "docs/BreakDown.md": {
+      "name": "BreakDown.md",
+      "type": "md",
+      "purpose": "Documentation",
+      "size": 1232,
+      "lines": 0,
+      "imports": [],
+      "exports": [],
+      "functions": [],
+      "classes": []
+    },
+    "docs/IMPLEMENTATION_SUMMARY.md": {
+      "name": "IMPLEMENTATION_SUMMARY.md",
+      "type": "md",
+      "purpose": "Documentation",
+      "size": 7443,
+      "lines": 0,
+      "imports": [],
+      "exports": [],
+      "functions": [],
+      "classes": []
+    },
+    "docs/ISSUE_RIDDLE_REQUESTS.md": {
+      "name": "ISSUE_RIDDLE_REQUESTS.md",
+      "type": "md",
+      "purpose": "Documentation",
+      "size": 8511,
+      "lines": 0,
+      "imports": [],
+      "exports": [],
+      "functions": [],
+      "classes": []
+    },
+    "index.html": {
+      "name": "index.html",
+      "type": "html",
+      "purpose": "Main application entry point",
+      "size": 14986,
+      "lines": 0,
+      "imports": [],
+      "exports": [],
+      "functions": [],
+      "classes": []
+    },
+    "system/css/game.css": {
+      "name": "game.css",
+      "type": "css",
+      "purpose": "Main stylesheet and visual styling",
+      "size": 12987,
+      "lines": 0,
+      "imports": [],
+      "exports": [],
+      "functions": [],
+      "classes": []
+    },
+    "system/database/COMPARISON.md": {
+      "name": "COMPARISON.md",
+      "type": "md",
+      "purpose": "Documentation",
+      "size": 9182,
+      "lines": 0,
+      "imports": [],
+      "exports": [],
+      "functions": [],
+      "classes": []
+    },
+    "system/database/QUICKSTART.md": {
+      "name": "QUICKSTART.md",
+      "type": "md",
+      "purpose": "Documentation",
+      "size": 2455,
+      "lines": 0,
+      "imports": [],
+      "exports": [],
+      "functions": [],
+      "classes": []
+    },
+    "system/database/README.md": {
+      "name": "README.md",
+      "type": "md",
+      "purpose": "Documentation",
+      "size": 12228,
+      "lines": 0,
+      "imports": [],
+      "exports": [],
+      "functions": [],
+      "classes": []
+    },
+    "system/database/cli/repo-db.js": {
+      "name": "repo-db.js",
+      "type": "js",
+      "purpose": "Supporting file",
+      "size": 15416,
+      "lines": 497,
+      "imports": [],
+      "exports": [],
+      "functions": [],
+      "classes": [
+        "DatabaseCLI"
+      ]
+    },
+    "system/database/data/ARCHITECTURE.md": {
+      "name": "ARCHITECTURE.md",
+      "type": "md",
+      "purpose": "Documentation",
+      "size": 1625,
+      "lines": 0,
+      "imports": [],
+      "exports": [],
+      "functions": [],
+      "classes": []
+    },
+    "system/database/data/code-index.json": {
+      "name": "code-index.json",
+      "type": "json",
+      "purpose": "Supporting file",
+      "size": 5414,
+      "lines": 0,
+      "imports": [],
+      "exports": [],
+      "functions": [],
+      "classes": []
+    },
+    "system/database/data/metrics.json": {
+      "name": "metrics.json",
+      "type": "json",
+      "purpose": "Supporting file",
+      "size": 9227,
+      "lines": 0,
+      "imports": [],
+      "exports": [],
+      "functions": [],
+      "classes": []
+    },
+    "system/database/data/repo-map.json": {
+      "name": "repo-map.json",
+      "type": "json",
+      "purpose": "Supporting file",
+      "size": 14553,
+      "lines": 0,
+      "imports": [],
+      "exports": [],
+      "functions": [],
+      "classes": []
+    },
+    "system/database/lib/database.js": {
+      "name": "database.js",
+      "type": "js",
+      "purpose": "Supporting file",
+      "size": 17663,
+      "lines": 518,
+      "imports": [],
+      "exports": [],
+      "functions": [],
+      "classes": [
+        "RepositoryDatabase"
+      ]
+    },
+    "system/database/lib/init_db.sh": {
+      "name": "init_db.sh",
+      "type": "sh",
+      "purpose": "Supporting file",
+      "size": 3869,
+      "lines": 0,
+      "imports": [],
+      "exports": [],
+      "functions": [],
+      "classes": []
+    },
+    "system/database/lib/migrate.js": {
+      "name": "migrate.js",
+      "type": "js",
+      "purpose": "Supporting file",
+      "size": 12781,
+      "lines": 377,
+      "imports": [],
+      "exports": [],
+      "functions": [],
+      "classes": [
+        "DataMigrator"
+      ]
+    },
+    "system/database/package.json": {
+      "name": "package.json",
+      "type": "json",
+      "purpose": "Supporting file",
+      "size": 968,
+      "lines": 0,
+      "imports": [],
+      "exports": [],
+      "functions": [],
+      "classes": []
+    },
+    "system/database/schema/core.sql": {
+      "name": "core.sql",
+      "type": "sql",
+      "purpose": "Supporting file",
+      "size": 17426,
+      "lines": 0,
+      "imports": [],
+      "exports": [],
+      "functions": [],
+      "classes": []
+    },
+    "system/js/auth.js": {
+      "name": "auth.js",
+      "type": "js",
+      "purpose": "Supporting file",
+      "size": 19884,
+      "lines": 488,
+      "imports": [],
+      "exports": [
+        "isAuthenticated",
+        "getGitHubToken",
+        "saveGitHubToken",
+        "clearGitHubToken",
+        "isValidTokenFormat",
+        "openGitHubPullRequestTemplate",
+        "redirectToLogin",
+        "redirectToApp"
+      ],
+      "functions": [
+        "isAuthenticated",
+        "getGitHubToken",
+        "saveGitHubToken",
+        "clearGitHubToken",
+        "isValidTokenFormat",
+        "verifyToken",
+        "createRiddleRequestPullRequest",
+        "createRiddleRequestIssue",
+        "openGitHubPullRequestTemplate",
+        "redirectToLogin",
+        "redirectToApp"
+      ],
+      "classes": []
+    },
+    "system/js/game.js": {
+      "name": "game.js",
+      "type": "js",
+      "purpose": "Core game logic and UI interactions",
+      "size": 18815,
+      "lines": 574,
+      "imports": [
+        "../riddles/riddles.js",
+        "./auth.js"
+      ],
+      "exports": [],
+      "functions": [
+        "loadProgress",
+        "saveProgress",
+        "loadCurrentRiddleIndex",
+        "saveCurrentRiddleIndex",
+        "initGame",
+        "loadRiddle",
+        "previousRiddle",
+        "nextRiddle",
+        "updateNavigationButtons",
+        "showRiddleSelector",
+        "closeRiddleSelector",
+        "showRequestRiddleMenu",
+        "closeRequestRiddleModal",
+        "requestViaEmail",
+        "requestAICurated",
+        "toggleMoreMenu",
+        "refreshApp",
+        "checkAnswer",
+        "giveUp",
+        "showModal",
+        "closeModal",
+        "showHelpModal",
+        "closeHelpModal",
+        "showHintModal",
+        "closeHintModal",
+        "updateAuthButton",
+        "handleAuthAction"
+      ],
+      "classes": []
+    },
+    "system/js/sw.js": {
+      "name": "sw.js",
+      "type": "js",
+      "purpose": "Service worker for PWA offline support",
+      "size": 3152,
+      "lines": 99,
+      "imports": [],
+      "exports": [],
+      "functions": [
+        "getBasePath"
+      ],
+      "classes": []
+    },
+    "system/riddle.html": {
+      "name": "riddle.html",
+      "type": "html",
+      "purpose": "Supporting file",
+      "size": 11680,
+      "lines": 0,
+      "imports": [],
+      "exports": [],
+      "functions": [],
+      "classes": []
+    },
+    "system/riddles/gatekeeper.riddle.js": {
+      "name": "gatekeeper.riddle.js",
+      "type": "js",
+      "purpose": "Riddle data file",
+      "size": 1755,
+      "lines": 57,
+      "imports": [],
+      "exports": [
+        "riddle"
+      ],
+      "functions": [],
+      "classes": []
+    },
+    "system/riddles/mirror.riddle.js": {
+      "name": "mirror.riddle.js",
+      "type": "js",
+      "purpose": "Riddle data file",
+      "size": 1499,
+      "lines": 46,
+      "imports": [],
+      "exports": [
+        "riddle"
+      ],
+      "functions": [],
+      "classes": []
+    },
+    "system/riddles/riddle.template.js": {
+      "name": "riddle.template.js",
+      "type": "js",
+      "purpose": "Template for creating new riddles",
+      "size": 2586,
+      "lines": 76,
+      "imports": [],
+      "exports": [
+        "riddle"
+      ],
+      "functions": [],
+      "classes": []
+    },
+    "system/riddles/riddles.js": {
+      "name": "riddles.js",
+      "type": "js",
+      "purpose": "Riddle registry and loader",
+      "size": 1100,
+      "lines": 38,
+      "imports": [
+        "./gatekeeper.riddle.js",
+        "./mirror.riddle.js",
+        "./the-paradox-of-progress.riddle.js",
+        "./the-river-that-remembers.riddle.js"
+      ],
+      "exports": [
+        "riddles",
+        "getRiddleById",
+        "getRiddleByIndex",
+        "getRiddleCount",
+        "getRiddleIndex"
+      ],
+      "functions": [
+        "getRiddleById",
+        "getRiddleByIndex",
+        "getRiddleCount",
+        "getRiddleIndex"
+      ],
+      "classes": []
+    },
+    "system/riddles/the-paradox-of-progress.riddle.js": {
+      "name": "the-paradox-of-progress.riddle.js",
+      "type": "js",
+      "purpose": "Riddle data file",
+      "size": 1495,
+      "lines": 47,
+      "imports": [],
+      "exports": [
+        "riddle"
+      ],
+      "functions": [],
+      "classes": []
+    },
+    "system/riddles/the-river-that-remembers.riddle.js": {
+      "name": "the-river-that-remembers.riddle.js",
+      "type": "js",
+      "purpose": "Riddle data file",
+      "size": 2639,
+      "lines": 69,
+      "imports": [],
+      "exports": [
+        "riddle"
+      ],
+      "functions": [],
+      "classes": []
+    },
+    "system/scripts/l.h.s.script": {
+      "name": "l.h.s.script",
+      "type": "script",
+      "purpose": "Supporting file",
+      "size": 0,
+      "lines": 0,
+      "imports": [],
+      "exports": [],
+      "functions": [],
+      "classes": []
+    },
+    "system/storage/icon.logo.png": {
+      "name": "icon.logo.png",
+      "type": "png",
+      "purpose": "Supporting file",
+      "size": 124761,
+      "lines": 0,
+      "imports": [],
+      "exports": [],
+      "functions": [],
+      "classes": []
+    },
+    "system/storage/manifest.json": {
+      "name": "manifest.json",
+      "type": "json",
+      "purpose": "PWA manifest configuration",
+      "size": 542,
+      "lines": 0,
+      "imports": [],
+      "exports": [],
+      "functions": [],
+      "classes": []
+    }
+  },
+  "components": {
+    "ui": [
+      "index.html",
+      "system/css/game.css",
+      "system/riddle.html"
+    ],
+    "logic": [
+      "system/database/cli/repo-db.js",
+      "system/database/lib/database.js",
+      "system/database/lib/migrate.js",
+      "system/js/auth.js",
+      "system/js/game.js",
+      "system/js/sw.js"
+    ],
+    "data": [
+      "system/riddles/gatekeeper.riddle.js",
+      "system/riddles/mirror.riddle.js",
+      "system/riddles/riddle.template.js",
+      "system/riddles/riddles.js",
+      "system/riddles/the-paradox-of-progress.riddle.js",
+      "system/riddles/the-river-that-remembers.riddle.js"
+    ],
+    "infrastructure": [],
+    "documentation": [
+      "docs/AUTOMATED_RIDDLES.md",
+      "docs/BreakDown.md",
+      "docs/IMPLEMENTATION_SUMMARY.md",
+      "docs/ISSUE_RIDDLE_REQUESTS.md",
+      "system/database/COMPARISON.md",
+      "system/database/QUICKSTART.md",
+      "system/database/README.md",
+      "system/database/data/ARCHITECTURE.md"
+    ]
+  },
+  "relationships": {
+    "dependencies": [
+      {
+        "from": "system/js/game.js",
+        "to": "../riddles/riddles.js",
+        "type": "import"
+      },
+      {
+        "from": "system/js/game.js",
+        "to": "./auth.js",
+        "type": "import"
+      },
+      {
+        "from": "system/riddles/riddles.js",
+        "to": "./gatekeeper.riddle.js",
+        "type": "import"
+      },
+      {
+        "from": "system/riddles/riddles.js",
+        "to": "./mirror.riddle.js",
+        "type": "import"
+      },
+      {
+        "from": "system/riddles/riddles.js",
+        "to": "./the-paradox-of-progress.riddle.js",
+        "type": "import"
+      },
+      {
+        "from": "system/riddles/riddles.js",
+        "to": "./the-river-that-remembers.riddle.js",
+        "type": "import"
+      }
+    ],
+    "usedBy": {
+      "../riddles/riddles.js": [
+        "system/js/game.js"
+      ],
+      "./auth.js": [
+        "system/js/game.js"
+      ],
+      "./gatekeeper.riddle.js": [
+        "system/riddles/riddles.js"
+      ],
+      "./mirror.riddle.js": [
+        "system/riddles/riddles.js"
+      ],
+      "./the-paradox-of-progress.riddle.js": [
+        "system/riddles/riddles.js"
+      ],
+      "./the-river-that-remembers.riddle.js": [
+        "system/riddles/riddles.js"
+      ]
+    }
+  }
+}
