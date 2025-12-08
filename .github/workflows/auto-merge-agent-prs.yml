@@ -56,12 +56,18 @@ jobs:
               console.log('✅ Added github-copilot[bot] to assignees');
             }
       
+      - name: Mark PR as ready for review (remove draft status)
+        run: |
+          gh pr ready "${{ github.event.pull_request.number }}"
+        env:
+          GH_TOKEN: ${{ secrets.PAT_GITHUB }}
+      
       - name: Auto-approve Copilot PR
         run: |
           gh pr review --approve "${{ github.event.pull_request.number }}" \
             --body "✅ Auto-approved: Copilot-generated agent PR"
         env:
-          GH_TOKEN: ${{ secrets.PAT_GITHUB }}
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       
       - name: Enable auto-merge
         run: |
