@@ -1,235 +1,692 @@
 {
   "functions": {
-    "isAuthenticated": {
-      "file": "system/js/auth.js",
-      "type": "function"
+    "constructor": {
+      "file": "system/database/lib/repo-mapper.js",
+      "line": 19,
+      "signature": "constructor(repoPath, dbPath = null) {",
+      "purpose": "Function: constructor",
+      "async": false,
+      "exported": false,
+      "complexity": 1
     },
-    "getGitHubToken": {
-      "file": "system/js/auth.js",
-      "type": "function"
+    "validateLimit": {
+      "file": "system/database/cli/repo-db.js",
+      "line": 27,
+      "signature": "validateLimit(limitStr, defaultValue = 20) {",
+      "purpose": "Validates limit",
+      "async": false,
+      "exported": false,
+      "complexity": 3
     },
-    "saveGitHubToken": {
-      "file": "system/js/auth.js",
-      "type": "function"
+    "if": {
+      "file": "system/riddles/riddles.js",
+      "line": 23,
+      "signature": "if (index >= 0 && index < riddles.length) {",
+      "purpose": "Function: if",
+      "async": false,
+      "exported": false,
+      "complexity": 3
     },
-    "clearGitHubToken": {
-      "file": "system/js/auth.js",
-      "type": "function"
+    "calculateHash": {
+      "file": "system/database/lib/migrate.js",
+      "line": 25,
+      "signature": "calculateHash(content) {",
+      "purpose": "Function: calculate hash",
+      "async": false,
+      "exported": false,
+      "complexity": 1
     },
-    "isValidTokenFormat": {
-      "file": "system/js/auth.js",
-      "type": "function"
+    "readJSON": {
+      "file": "system/database/lib/migrate.js",
+      "line": 32,
+      "signature": "readJSON(filePath) {",
+      "purpose": "Function: read j s o n",
+      "async": false,
+      "exported": false,
+      "complexity": 3
     },
-    "verifyToken": {
+    "for": {
       "file": "system/js/auth.js",
-      "type": "function"
+      "line": 282,
+      "signature": "for (const c of comments) {",
+      "purpose": "Function: for",
+      "async": false,
+      "exported": false,
+      "complexity": 5
     },
-    "createRiddleRequestPullRequest": {
-      "file": "system/js/auth.js",
-      "type": "function"
+    "getAllFiles": {
+      "file": "system/database/lib/repo-mapper.js",
+      "line": 139,
+      "signature": "getAllFiles(dir, fileList = []) {",
+      "purpose": "Retrieves all files",
+      "async": false,
+      "exported": false,
+      "complexity": 4
     },
-    "createRiddleRequestIssue": {
-      "file": "system/js/auth.js",
-      "type": "function"
+    "extractFunctions": {
+      "file": "system/database/lib/repo-mapper.js",
+      "line": 307,
+      "signature": "extractFunctions(content) {",
+      "purpose": "Function: extract functions",
+      "async": false,
+      "exported": false,
+      "complexity": 1
     },
-    "openGitHubPullRequestTemplate": {
-      "file": "system/js/auth.js",
-      "type": "function"
+    "findFunctionEnd": {
+      "file": "system/database/lib/repo-mapper.js",
+      "line": 374,
+      "signature": "findFunctionEnd(lines, startLine) {",
+      "purpose": "Function: find function end",
+      "async": false,
+      "exported": false,
+      "complexity": 1
     },
-    "redirectToLogin": {
-      "file": "system/js/auth.js",
-      "type": "function"
+    "calculateComplexity": {
+      "file": "system/database/lib/repo-mapper.js",
+      "line": 408,
+      "signature": "calculateComplexity(code) {",
+      "purpose": "Function: calculate complexity",
+      "async": false,
+      "exported": false,
+      "complexity": 6
     },
-    "redirectToApp": {
-      "file": "system/js/auth.js",
-      "type": "function"
+    "isExported": {
+      "file": "system/database/lib/repo-mapper.js",
+      "line": 437,
+      "signature": "isExported(lines, functionLine, functionName) {",
+      "purpose": "Checks if exported",
+      "async": false,
+      "exported": true,
+      "complexity": 7
+    },
+    "extractImports": {
+      "file": "system/database/lib/repo-mapper.js",
+      "line": 457,
+      "signature": "extractImports(content) {",
+      "purpose": "Function: extract imports",
+      "async": false,
+      "exported": false,
+      "complexity": 1
+    },
+    "extractExports": {
+      "file": "system/database/lib/repo-mapper.js",
+      "line": 530,
+      "signature": "extractExports(content) {",
+      "purpose": "Function: extract exports",
+      "async": false,
+      "exported": false,
+      "complexity": 142
+    },
+    "inferPurpose": {
+      "file": "system/database/lib/repo-mapper.js",
+      "line": 721,
+      "signature": "inferPurpose(filePath, content) {",
+      "purpose": "Function: infer purpose",
+      "async": false,
+      "exported": false,
+      "complexity": 28
+    },
+    "inferFunctionPurpose": {
+      "file": "system/database/lib/repo-mapper.js",
+      "line": 773,
+      "signature": "inferFunctionPurpose(name, code) {",
+      "purpose": "Convert camelCase to words",
+      "async": false,
+      "exported": false,
+      "complexity": 27
+    },
+    "buildUsedByMap": {
+      "file": "system/database/lib/repo-mapper.js",
+      "line": 964,
+      "signature": "buildUsedByMap(dependencies) {",
+      "purpose": "Function: build used by map",
+      "async": false,
+      "exported": false,
+      "complexity": 4
+    },
+    "categorizeComponents": {
+      "file": "system/database/lib/repo-mapper.js",
+      "line": 982,
+      "signature": "categorizeComponents(files) {",
+      "purpose": "Function: categorize components",
+      "async": false,
+      "exported": false,
+      "complexity": 15
+    },
+    "generateInsights": {
+      "file": "system/database/lib/repo-mapper.js",
+      "line": 1013,
+      "signature": "generateInsights(files, dependencies, metrics) {",
+      "purpose": "Function: generate insights",
+      "async": false,
+      "exported": false,
+      "complexity": 5
+    },
+    "formatTopDependencies": {
+      "file": "system/database/lib/repo-mapper.js",
+      "line": 1368,
+      "signature": "formatTopDependencies(dependencies) {",
+      "purpose": "Function: format top dependencies",
+      "async": false,
+      "exported": false,
+      "complexity": 5
+    },
+    "identifyTechnicalDebt": {
+      "file": "system/database/lib/repo-mapper.js",
+      "line": 1390,
+      "signature": "identifyTechnicalDebt(complexity, metrics) {",
+      "purpose": "Function: identify technical debt",
+      "async": false,
+      "exported": false,
+      "complexity": 4
+    },
+    "printSummary": {
+      "file": "system/database/lib/repo-mapper.js",
+      "line": 1415,
+      "signature": "printSummary() {",
+      "purpose": "Function: print summary",
+      "async": false,
+      "exported": false,
+      "complexity": 1
     },
     "loadProgress": {
       "file": "system/js/game.js",
-      "type": "function"
+      "line": 12,
+      "signature": "function loadProgress() {",
+      "purpose": "Loads progress",
+      "async": false,
+      "exported": false,
+      "complexity": 3
     },
     "saveProgress": {
       "file": "system/js/game.js",
-      "type": "function"
+      "line": 25,
+      "signature": "function saveProgress() {",
+      "purpose": "Saves progress",
+      "async": false,
+      "exported": false,
+      "complexity": 1
     },
     "loadCurrentRiddleIndex": {
       "file": "system/js/game.js",
-      "type": "function"
+      "line": 30,
+      "signature": "function loadCurrentRiddleIndex() {",
+      "purpose": "Loads current riddle index",
+      "async": false,
+      "exported": false,
+      "complexity": 2
     },
     "saveCurrentRiddleIndex": {
       "file": "system/js/game.js",
-      "type": "function"
+      "line": 36,
+      "signature": "function saveCurrentRiddleIndex() {",
+      "purpose": "Saves current riddle index",
+      "async": false,
+      "exported": false,
+      "complexity": 1
     },
     "initGame": {
       "file": "system/js/game.js",
-      "type": "function"
+      "line": 41,
+      "signature": "function initGame() {",
+      "purpose": "Initializes game",
+      "async": false,
+      "exported": false,
+      "complexity": 1
     },
     "loadRiddle": {
       "file": "system/js/game.js",
-      "type": "function"
+      "line": 50,
+      "signature": "function loadRiddle(index) {",
+      "purpose": "Loads riddle",
+      "async": false,
+      "exported": false,
+      "complexity": 4
     },
     "previousRiddle": {
       "file": "system/js/game.js",
-      "type": "function"
+      "line": 76,
+      "signature": "function previousRiddle() {",
+      "purpose": "Function: previous riddle",
+      "async": false,
+      "exported": false,
+      "complexity": 2
     },
     "nextRiddle": {
       "file": "system/js/game.js",
-      "type": "function"
+      "line": 83,
+      "signature": "function nextRiddle() {",
+      "purpose": "Function: next riddle",
+      "async": false,
+      "exported": false,
+      "complexity": 2
     },
     "updateNavigationButtons": {
       "file": "system/js/game.js",
-      "type": "function"
+      "line": 90,
+      "signature": "function updateNavigationButtons() {",
+      "purpose": "Updates navigation buttons",
+      "async": false,
+      "exported": false,
+      "complexity": 3
     },
     "showRiddleSelector": {
       "file": "system/js/game.js",
-      "type": "function"
+      "line": 103,
+      "signature": "function showRiddleSelector() {",
+      "purpose": "Function: show riddle selector",
+      "async": false,
+      "exported": false,
+      "complexity": 7
     },
     "closeRiddleSelector": {
       "file": "system/js/game.js",
-      "type": "function"
+      "line": 144,
+      "signature": "function closeRiddleSelector() {",
+      "purpose": "Function: close riddle selector",
+      "async": false,
+      "exported": false,
+      "complexity": 1
     },
     "showRequestRiddleMenu": {
       "file": "system/js/game.js",
-      "type": "function"
+      "line": 150,
+      "signature": "function showRequestRiddleMenu() {",
+      "purpose": "Function: show request riddle menu",
+      "async": false,
+      "exported": false,
+      "complexity": 2
     },
     "closeRequestRiddleModal": {
       "file": "system/js/game.js",
-      "type": "function"
+      "line": 159,
+      "signature": "function closeRequestRiddleModal() {",
+      "purpose": "Function: close request riddle modal",
+      "async": false,
+      "exported": false,
+      "complexity": 2
     },
     "requestViaEmail": {
       "file": "system/js/game.js",
-      "type": "function"
+      "line": 167,
+      "signature": "function requestViaEmail() {",
+      "purpose": "Function: request via email",
+      "async": false,
+      "exported": false,
+      "complexity": 3
     },
     "requestAICurated": {
       "file": "system/js/game.js",
-      "type": "function"
+      "line": 188,
+      "signature": "async function requestAICurated() {",
+      "purpose": "Function: request a i curated",
+      "async": true,
+      "exported": false,
+      "complexity": 18
     },
     "toggleMoreMenu": {
       "file": "system/js/game.js",
-      "type": "function"
+      "line": 261,
+      "signature": "function toggleMoreMenu() {",
+      "purpose": "Function: toggle more menu",
+      "async": false,
+      "exported": false,
+      "complexity": 2
     },
     "refreshApp": {
       "file": "system/js/game.js",
-      "type": "function"
+      "line": 269,
+      "signature": "async function refreshApp() {",
+      "purpose": "Clear all caches",
+      "async": true,
+      "exported": false,
+      "complexity": 5
     },
     "checkAnswer": {
       "file": "system/js/game.js",
-      "type": "function"
+      "line": 352,
+      "signature": "function checkAnswer() {",
+      "purpose": "Checks answer",
+      "async": false,
+      "exported": false,
+      "complexity": 10
     },
     "giveUp": {
       "file": "system/js/game.js",
-      "type": "function"
+      "line": 393,
+      "signature": "function giveUp() {",
+      "purpose": "Function: give up",
+      "async": false,
+      "exported": false,
+      "complexity": 1
     },
     "showModal": {
       "file": "system/js/game.js",
-      "type": "function"
+      "line": 397,
+      "signature": "function showModal(won) {",
+      "purpose": "Function: show modal",
+      "async": false,
+      "exported": false,
+      "complexity": 5
     },
     "closeModal": {
       "file": "system/js/game.js",
-      "type": "function"
+      "line": 420,
+      "signature": "function closeModal() {",
+      "purpose": "Function: close modal",
+      "async": false,
+      "exported": false,
+      "complexity": 1
     },
     "showHelpModal": {
       "file": "system/js/game.js",
-      "type": "function"
+      "line": 425,
+      "signature": "function showHelpModal() {",
+      "purpose": "Function: show help modal",
+      "async": false,
+      "exported": false,
+      "complexity": 1
     },
     "closeHelpModal": {
       "file": "system/js/game.js",
-      "type": "function"
+      "line": 430,
+      "signature": "function closeHelpModal() {",
+      "purpose": "Function: close help modal",
+      "async": false,
+      "exported": false,
+      "complexity": 1
     },
     "showHintModal": {
       "file": "system/js/game.js",
-      "type": "function"
+      "line": 435,
+      "signature": "function showHintModal() {",
+      "purpose": "Function: show hint modal",
+      "async": false,
+      "exported": false,
+      "complexity": 9
     },
     "closeHintModal": {
       "file": "system/js/game.js",
-      "type": "function"
+      "line": 470,
+      "signature": "function closeHintModal() {",
+      "purpose": "Function: close hint modal",
+      "async": false,
+      "exported": false,
+      "complexity": 1
     },
     "updateAuthButton": {
       "file": "system/js/game.js",
-      "type": "function"
+      "line": 546,
+      "signature": "function updateAuthButton() {",
+      "purpose": "Updates auth button",
+      "async": false,
+      "exported": false,
+      "complexity": 3
     },
     "handleAuthAction": {
       "file": "system/js/game.js",
-      "type": "function"
+      "line": 559,
+      "signature": "function handleAuthAction() {",
+      "purpose": "Handles auth action event",
+      "async": false,
+      "exported": false,
+      "complexity": 4
     },
     "getBasePath": {
       "file": "system/js/sw.js",
-      "type": "function"
-    },
-    "getRiddleById": {
-      "file": "system/riddles/riddles.js",
-      "type": "function"
-    },
-    "getRiddleByIndex": {
-      "file": "system/riddles/riddles.js",
-      "type": "function"
-    },
-    "getRiddleCount": {
-      "file": "system/riddles/riddles.js",
-      "type": "function"
-    },
-    "getRiddleIndex": {
-      "file": "system/riddles/riddles.js",
-      "type": "function"
+      "line": 5,
+      "signature": "const getBasePath = () => {",
+      "purpose": "Retrieves base path",
+      "async": false,
+      "exported": false,
+      "complexity": 2
     }
   },
   "exports": {
-    "isAuthenticated": {
-      "file": "system/js/auth.js",
-      "type": "export"
-    },
-    "getGitHubToken": {
-      "file": "system/js/auth.js",
-      "type": "export"
-    },
-    "saveGitHubToken": {
-      "file": "system/js/auth.js",
-      "type": "export"
-    },
-    "clearGitHubToken": {
-      "file": "system/js/auth.js",
-      "type": "export"
-    },
-    "isValidTokenFormat": {
-      "file": "system/js/auth.js",
-      "type": "export"
-    },
-    "openGitHubPullRequestTemplate": {
-      "file": "system/js/auth.js",
-      "type": "export"
-    },
-    "redirectToLogin": {
-      "file": "system/js/auth.js",
-      "type": "export"
-    },
-    "redirectToApp": {
-      "file": "system/js/auth.js",
-      "type": "export"
-    },
-    "riddle": {
-      "file": "system/riddles/riddle.template.js",
-      "type": "export"
-    },
-    "riddles": {
-      "file": "system/riddles/riddles.js",
-      "type": "export"
-    },
-    "getRiddleById": {
-      "file": "system/riddles/riddles.js",
-      "type": "export"
-    },
-    "getRiddleByIndex": {
-      "file": "system/riddles/riddles.js",
-      "type": "export"
-    },
-    "getRiddleCount": {
-      "file": "system/riddles/riddles.js",
-      "type": "export"
-    },
-    "getRiddleIndex": {
-      "file": "system/riddles/riddles.js",
-      "type": "export"
-    }
+    "RepositoryDatabase": [
+      {
+        "file": "system/database/lib/database.js",
+        "line": 493,
+        "type": "default"
+      },
+      {
+        "file": "system/database/lib/database.js",
+        "line": 493,
+        "type": "default"
+      }
+    ],
+    "DataMigrator": [
+      {
+        "file": "system/database/lib/migrate.js",
+        "line": 376,
+        "type": "default"
+      },
+      {
+        "file": "system/database/lib/migrate.js",
+        "line": 376,
+        "type": "default"
+      }
+    ],
+    "RepositoryMapper": [
+      {
+        "file": "system/database/lib/repo-mapper.js",
+        "line": 1428,
+        "type": "default"
+      },
+      {
+        "file": "system/database/lib/repo-mapper.js",
+        "line": 1437,
+        "type": "default"
+      }
+    ],
+    "isAuthenticated": [
+      {
+        "file": "system/js/auth.js",
+        "line": 9,
+        "type": "named"
+      },
+      {
+        "file": "system/js/auth.js",
+        "line": 9,
+        "type": "named"
+      }
+    ],
+    "getGitHubToken": [
+      {
+        "file": "system/js/auth.js",
+        "line": 15,
+        "type": "named"
+      },
+      {
+        "file": "system/js/auth.js",
+        "line": 15,
+        "type": "named"
+      }
+    ],
+    "saveGitHubToken": [
+      {
+        "file": "system/js/auth.js",
+        "line": 20,
+        "type": "named"
+      },
+      {
+        "file": "system/js/auth.js",
+        "line": 20,
+        "type": "named"
+      }
+    ],
+    "clearGitHubToken": [
+      {
+        "file": "system/js/auth.js",
+        "line": 28,
+        "type": "named"
+      },
+      {
+        "file": "system/js/auth.js",
+        "line": 28,
+        "type": "named"
+      }
+    ],
+    "isValidTokenFormat": [
+      {
+        "file": "system/js/auth.js",
+        "line": 34,
+        "type": "named"
+      },
+      {
+        "file": "system/js/auth.js",
+        "line": 34,
+        "type": "named"
+      }
+    ],
+    "openGitHubPullRequestTemplate": [
+      {
+        "file": "system/js/auth.js",
+        "line": 457,
+        "type": "named"
+      },
+      {
+        "file": "system/js/auth.js",
+        "line": 457,
+        "type": "named"
+      }
+    ],
+    "redirectToLogin": [
+      {
+        "file": "system/js/auth.js",
+        "line": 464,
+        "type": "named"
+      },
+      {
+        "file": "system/js/auth.js",
+        "line": 464,
+        "type": "named"
+      }
+    ],
+    "redirectToApp": [
+      {
+        "file": "system/js/auth.js",
+        "line": 477,
+        "type": "named"
+      },
+      {
+        "file": "system/js/auth.js",
+        "line": 477,
+        "type": "named"
+      }
+    ],
+    "riddle": [
+      {
+        "file": "system/riddles/gatekeeper.riddle.js",
+        "line": 2,
+        "type": "named"
+      },
+      {
+        "file": "system/riddles/gatekeeper.riddle.js",
+        "line": 2,
+        "type": "named"
+      },
+      {
+        "file": "system/riddles/mirror.riddle.js",
+        "line": 2,
+        "type": "named"
+      },
+      {
+        "file": "system/riddles/mirror.riddle.js",
+        "line": 2,
+        "type": "named"
+      },
+      {
+        "file": "system/riddles/riddle.template.js",
+        "line": 26,
+        "type": "named"
+      },
+      {
+        "file": "system/riddles/riddle.template.js",
+        "line": 26,
+        "type": "named"
+      },
+      {
+        "file": "system/riddles/the-paradox-of-progress.riddle.js",
+        "line": 8,
+        "type": "named"
+      },
+      {
+        "file": "system/riddles/the-paradox-of-progress.riddle.js",
+        "line": 8,
+        "type": "named"
+      },
+      {
+        "file": "system/riddles/the-river-that-remembers.riddle.js",
+        "line": 8,
+        "type": "named"
+      },
+      {
+        "file": "system/riddles/the-river-that-remembers.riddle.js",
+        "line": 8,
+        "type": "named"
+      }
+    ],
+    "riddles": [
+      {
+        "file": "system/riddles/riddles.js",
+        "line": 11,
+        "type": "named"
+      },
+      {
+        "file": "system/riddles/riddles.js",
+        "line": 11,
+        "type": "named"
+      }
+    ],
+    "getRiddleById": [
+      {
+        "file": "system/riddles/riddles.js",
+        "line": 17,
+        "type": "named"
+      },
+      {
+        "file": "system/riddles/riddles.js",
+        "line": 17,
+        "type": "named"
+      }
+    ],
+    "getRiddleByIndex": [
+      {
+        "file": "system/riddles/riddles.js",
+        "line": 22,
+        "type": "named"
+      },
+      {
+        "file": "system/riddles/riddles.js",
+        "line": 22,
+        "type": "named"
+      }
+    ],
+    "getRiddleCount": [
+      {
+        "file": "system/riddles/riddles.js",
+        "line": 30,
+        "type": "named"
+      },
+      {
+        "file": "system/riddles/riddles.js",
+        "line": 30,
+        "type": "named"
+      }
+    ],
+    "getRiddleIndex": [
+      {
+        "file": "system/riddles/riddles.js",
+        "line": 35,
+        "type": "named"
+      },
+      {
+        "file": "system/riddles/riddles.js",
+        "line": 35,
+        "type": "named"
+      }
+    ]
   },
-  "lastUpdated": "2025-12-07T22:08:06.990Z"
+  "lastUpdated": "2025-12-08T00:18:07.839Z"
 }
