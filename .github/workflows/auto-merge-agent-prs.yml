@@ -2,39 +2,34 @@ name: Auto-Merge Agent PRs
 
 on:
   pull_request:
-    types: [draft, opened, synchronize, reopened, ready_for_review]
+    types: [opened, synchronize]
     branches:
       - master
 
 permissions:
   pull-requests: write
   contents: write
+  issues: write
 
 jobs:
   auto-merge:
     runs-on: ubuntu-latest
-    # Only for PRs from Copilot with agent labels
-    if: |
-      github.actor == 'github-copilot[bot]' && 
-      (contains(github.event.pull_request.labels.*.name, 'riddle') ||
-       contains(github.event.pull_request.labels.*.name, 'mapper-request') ||
-       contains(github.event.pull_request.title, 'riddle') ||
-       contains(github.event.pull_request.title, 'Riddle') ||
-       contains(github.event.pull_request.title, 'Mapping'))
+    # Only for PRs from Copilot
+    if: github.actor == 'github-copilot[bot]'
     steps:
-      - name: Remove owner from assignees, keep only Copilot
+      - name: Check out repository
+        uses: actions/checkout@v4
+      
+      - name: Remove owner from assignees and reviewers
         uses: actions/github-script@v7
         with:
           github-token: ${{ secrets.PAT_GITHUB }}
           script: |
             const pr = context.payload.pull_request;
             const owner = context.repo.owner;
-            
-            // Get current assignees
             const currentAssignees = pr.assignees.map(a => a.login);
-            console.log('Current assignees:', currentAssignees);
             
-            // Remove the owner if assigned
+            // Remove owner from assignees
             if (currentAssignees.includes(owner)) {
               await github.rest.issues.removeAssignees({
                 owner: context.repo.owner,
@@ -45,32 +40,38 @@ jobs:
               console.log(`✅ Removed ${owner} from assignees`);
             }
             
-            // Ensure Copilot is assigned
-            if (!currentAssignees.includes('github-copilot[bot]')) {
-              await github.rest.issues.addAssignees({
+            // Remove owner from requested reviewers
+            try {
+              await github.rest.pulls.removeRequestedReviewers({
                 owner: context.repo.owner,
                 repo: context.repo.repo,
-                issue_number: pr.number,
-                assignees: ['github-copilot[bot]']
+                pull_number: pr.number,
+                reviewers: [owner]
               });
-              console.log('✅ Added github-copilot[bot] to assignees');
+              console.log(`✅ Removed ${owner} from reviewers`);
+            } catch (e) {
+              console.log('No reviewer to remove or already removed');
             }
       
-      - name: Mark PR as ready for review (remove draft status)
+      - name: Mark PR as ready for review
         run: |
           gh pr ready "${{ github.event.pull_request.number }}"
         env:
           GH_TOKEN: ${{ secrets.PAT_GITHUB }}
       
-      - name: Auto-approve Copilot PR
+      - name: Approve PR
         run: |
-          gh pr review --approve "${{ github.event.pull_request.number }}" \
+          gh pr review "${{ github.event.pull_request.number }}" \
+            --approve \
             --body "✅ Auto-approved: Copilot-generated agent PR"
         env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_TOKEN: ${{ secrets.PAT_GITHUB }}
       
-      - name: Enable auto-merge
+      - name: Enable auto-merge with squash
         run: |
-          gh pr merge --auto --squash "${{ github.event.pull_request.number }}"
+          gh pr merge "${{ github.event.pull_request.number }}" \
+            --auto \
+            --squash \
+            --delete-branch
         env:
           GH_TOKEN: ${{ secrets.PAT_GITHUB }}
