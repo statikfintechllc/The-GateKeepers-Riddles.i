@@ -5,7 +5,6 @@ on:
     types: [opened, synchronize, reopened, ready_for_review]
     branches:
       - main
-      - master
 
 permissions:
   pull-requests: write
@@ -14,31 +13,53 @@ permissions:
 jobs:
   auto-merge:
     runs-on: ubuntu-latest
-    # Only for agent PRs from Copilot bot
+    # Only for PRs from Copilot with agent labels
     if: |
       github.actor == 'github-copilot[bot]' && 
-      (contains(github.event.pull_request.labels.*.name, 'riddle-request') ||
+      (contains(github.event.pull_request.labels.*.name, 'riddle') ||
        contains(github.event.pull_request.labels.*.name, 'mapper-request') ||
-       contains(github.event.pull_request.labels.*.name, 'agent-request') ||
        contains(github.event.pull_request.title, 'riddle') ||
        contains(github.event.pull_request.title, 'Riddle') ||
-       contains(github.event.pull_request.title, 'mapper') ||
-       contains(github.event.pull_request.title, 'Mapper') ||
-       contains(github.event.pull_request.title, 'Repository Mapping'))
-    
+       contains(github.event.pull_request.title, 'Mapping'))
     steps:
-      - name: Check PR details
-        run: |
-          echo "🤖 Agent PR detected"
-          echo "Actor: ${{ github.actor }}"
-          echo "PR #: ${{ github.event.pull_request.number }}"
-          echo "Title: ${{ github.event.pull_request.title }}"
-          echo "Labels: ${{ join(github.event.pull_request.labels.*.name, ', ') }}"
+      - name: Remove owner from assignees, keep only Copilot
+        uses: actions/github-script@v7
+        with:
+          github-token: ${{ secrets.PAT_GITHUB }}
+          script: |
+            const pr = context.payload.pull_request;
+            const owner = context.repo.owner;
+            
+            // Get current assignees
+            const currentAssignees = pr.assignees.map(a => a.login);
+            console.log('Current assignees:', currentAssignees);
+            
+            // Remove the owner if assigned
+            if (currentAssignees.includes(owner)) {
+              await github.rest.issues.removeAssignees({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: pr.number,
+                assignees: [owner]
+              });
+              console.log(`✅ Removed ${owner} from assignees`);
+            }
+            
+            // Ensure Copilot is assigned
+            if (!currentAssignees.includes('github-copilot[bot]')) {
+              await github.rest.issues.addAssignees({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: pr.number,
+                assignees: ['github-copilot[bot]']
+              });
+              console.log('✅ Added github-copilot[bot] to assignees');
+            }
       
       - name: Auto-approve Copilot PR
         run: |
           gh pr review --approve "${{ github.event.pull_request.number }}" \
-            --body "✅ Auto-approved: Copilot-generated agent PR (riddle/mapper)"
+            --body "✅ Auto-approved: Copilot-generated agent PR"
         env:
           GH_TOKEN: ${{ secrets.PAT_GITHUB }}
       
@@ -47,9 +68,3 @@ jobs:
           gh pr merge --auto --squash "${{ github.event.pull_request.number }}"
         env:
           GH_TOKEN: ${{ secrets.PAT_GITHUB }}
-      
-      - name: Summary
-        if: always()
-        run: |
-          echo "✅ Auto-merge configured for PR #${{ github.event.pull_request.number }}"
-          echo "📊 PR will merge automatically once all checks pass"
