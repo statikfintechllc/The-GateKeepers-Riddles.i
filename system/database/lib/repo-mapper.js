@@ -11,17 +11,44 @@
  */
 
 const RepositoryDatabase = require('./database');
-const fs = require('fs');
+const fs = require('fs').promises;
+const fsSync = require('fs');
 const path = require('path');
 const crypto = require('crypto');
+const { execSync } = require('child_process');
 
 class RepositoryMapper {
-    constructor(repoPath, dbPath = null) {
+    constructor(repoPath, dbPath = null, repoOwner = null, repoName = null, repoUrl = null) {
         this.repoPath = path.resolve(repoPath);
         this.db = new RepositoryDatabase(dbPath);
-        this.repoOwner = 'statikfintechllc';
-        this.repoName = 'The-GateKeepers-Riddles.i';
-        this.repoUrl = 'https://github.com/statikfintechllc/The-GateKeepers-Riddles.i';
+        
+        // If repoOwner, repoName, repoUrl are not provided, try to auto-detect from git config
+        if (!repoOwner || !repoName || !repoUrl) {
+            try {
+                // Get remote origin URL
+                const gitUrl = execSync('git config --get remote.origin.url', { cwd: this.repoPath, encoding: 'utf8' }).trim();
+                this.repoUrl = repoUrl || gitUrl;
+                // Parse owner and name from URL
+                // Supports both git@github.com:owner/name.git and https://github.com/owner/name(.git)
+                const match = gitUrl.match(/[:\/]([^\/:]+)\/([^\/\.]+)(?:\.git)?$/);
+                if (match) {
+                    this.repoOwner = repoOwner || match[1];
+                    this.repoName = repoName || match[2];
+                } else {
+                    this.repoOwner = repoOwner || 'statikfintechllc';
+                    this.repoName = repoName || 'The-GateKeepers-Riddles.i';
+                }
+            } catch (e) {
+                // Fallback to defaults
+                this.repoOwner = repoOwner || 'statikfintechllc';
+                this.repoName = repoName || 'The-GateKeepers-Riddles.i';
+                this.repoUrl = repoUrl || 'https://github.com/statikfintechllc/The-GateKeepers-Riddles.i';
+            }
+        } else {
+            this.repoOwner = repoOwner;
+            this.repoName = repoName;
+            this.repoUrl = repoUrl;
+        }
         
         // Statistics
         this.stats = {
@@ -119,7 +146,7 @@ class RepositoryMapper {
      * Scan the repository and analyze all files
      */
     async scanRepository() {
-        const files = this.getAllFiles(this.repoPath);
+        const files = await this.getAllFiles(this.repoPath);
         console.log(`📂 Found ${files.length} files to analyze`);
         console.log('');
 
@@ -136,8 +163,8 @@ class RepositoryMapper {
     /**
      * Get all files in the repository (recursively)
      */
-    getAllFiles(dir, fileList = []) {
-        const files = fs.readdirSync(dir);
+    async getAllFiles(dir, fileList = []) {
+        const files = await fs.readdir(dir);
 
         for (const file of files) {
             const filePath = path.join(dir, file);
@@ -148,10 +175,10 @@ class RepositoryMapper {
                 continue;
             }
 
-            const stat = fs.statSync(filePath);
+            const stat = await fs.stat(filePath);
             
             if (stat.isDirectory()) {
-                this.getAllFiles(filePath, fileList);
+                await this.getAllFiles(filePath, fileList);
             } else {
                 fileList.push(filePath);
             }
@@ -169,8 +196,8 @@ class RepositoryMapper {
         const name = path.basename(filePath);
         
         // Read file content
-        const content = fs.readFileSync(filePath, 'utf8');
-        const stats = fs.statSync(filePath);
+        const content = await fs.readFile(filePath, 'utf8');
+        const stats = await fs.stat(filePath);
         
         // Calculate hash
         const hash = crypto.createHash('sha256').update(content).digest('hex');
@@ -273,10 +300,9 @@ class RepositoryMapper {
                 result.commentLines++;
             } else if (trimmed.startsWith('/*') || inBlockComment) {
                 result.commentLines++;
+                inBlockComment = true;
                 if (trimmed.includes('*/')) {
                     inBlockComment = false;
-                } else if (trimmed.startsWith('/*')) {
-                    inBlockComment = true;
                 }
             } else {
                 result.codeLines++;
@@ -307,6 +333,7 @@ class RepositoryMapper {
     extractFunctions(content) {
         const functions = [];
         const lines = content.split('\n');
+        const jsKeywords = new Set(['if', 'for', 'while', 'switch', 'catch', 'with', 'else']);
         
         // Patterns for different function types
         const patterns = [
@@ -333,7 +360,11 @@ class RepositoryMapper {
                     const isAsync = line.includes('async');
                     const isArrow = line.includes('=>');
                     const name = match[2];
-                    const params = match[3] || '';
+                    
+                    // Skip JavaScript keywords
+                    if (jsKeywords.has(name)) {
+                        continue;
+                    }
                     
                     // Find end of function (simple heuristic: matching braces)
                     const lineEnd = this.findFunctionEnd(lines, i);
@@ -360,6 +391,7 @@ class RepositoryMapper {
                         purpose: purpose
                     });
                     
+                    i = lineEnd; // Skip to the end of the function we just found
                     break;
                 }
             }
@@ -370,6 +402,9 @@ class RepositoryMapper {
 
     /**
      * Find the end line of a function (matching braces)
+     * Note: This is a simple heuristic that counts braces. It may not handle
+     * all edge cases correctly (e.g., braces in strings or comments). For more
+     * accurate parsing, a proper JavaScript AST parser would be needed.
      */
     findFunctionEnd(lines, startLine) {
         let braceCount = 0;
@@ -404,6 +439,9 @@ class RepositoryMapper {
 
     /**
      * Calculate cyclomatic complexity of code
+     * Note: This is a regex-based approach that counts decision points. It may
+     * count keywords/operators in strings or comments. For more accurate complexity
+     * calculation, a proper JavaScript AST parser would be needed.
      */
     calculateComplexity(code) {
         let complexity = 1;
@@ -433,6 +471,9 @@ class RepositoryMapper {
 
     /**
      * Check if a function is exported
+     * Note: This uses simple string matching and may produce false positives
+     * if export-like patterns appear in comments or strings. For more accurate
+     * detection, a proper JavaScript AST parser would be needed.
      */
     isExported(lines, functionLine, functionName) {
         // Check if the function line itself has export
@@ -468,7 +509,7 @@ class RepositoryMapper {
                 const from = es6Match[2];
                 const isExternal = !from.startsWith('.') && !from.startsWith('/');
                 
-                let importType = 'named';
+                let importType;
                 let importedItems = [];
                 
                 if (items.includes('{')) {
@@ -577,7 +618,7 @@ class RepositoryMapper {
             }
             
             // module.exports = ...
-            if (line.startsWith('module.exports')) {
+            else if (line.startsWith('module.exports')) {
                 const match = line.match(/module\.exports\s*=\s*(.+?)(?:;|$)/);
                 if (match) {
                     exports.push({
@@ -637,16 +678,53 @@ class RepositoryMapper {
             purpose: ''
         };
         
+        let inBlockComment = false;
+        
         // Count comments and blank lines
         for (const line of lines) {
             const trimmed = line.trim();
             if (trimmed === '') {
                 result.blankLines++;
-            } else if (trimmed.startsWith('<!--')) {
+                continue;
+            }
+
+            let lineIsComment = false;
+            let searchStart = 0;
+            let tempLine = trimmed;
+
+            // Handle multi-line and inline comments
+            while (searchStart < tempLine.length) {
+                if (!inBlockComment) {
+                    const startIdx = tempLine.indexOf('<!--', searchStart);
+                    if (startIdx === -1) {
+                        break;
+                    }
+                    inBlockComment = true;
+                    lineIsComment = true;
+                    searchStart = startIdx + 4;
+                }
+                if (inBlockComment) {
+                    const endIdx = tempLine.indexOf('-->', searchStart);
+                    if (endIdx === -1) {
+                        // Comment continues to next line
+                        break;
+                    } else {
+                        inBlockComment = false;
+                        lineIsComment = true;
+                        searchStart = endIdx + 3;
+                    }
+                }
+            }
+            
+            // If we are still in a block comment or found comment on this line, count it
+            if (inBlockComment || lineIsComment) {
                 result.commentLines++;
+            } else {
+                result.codeLines++;
             }
         }
         
+        // Adjust code lines count
         result.codeLines = lines.length - result.blankLines - result.commentLines;
         
         // Infer purpose
@@ -675,11 +753,12 @@ class RepositoryMapper {
                 result.blankLines++;
             } else if (trimmed.startsWith('/*') || inBlockComment) {
                 result.commentLines++;
+                inBlockComment = true;
                 if (trimmed.includes('*/')) {
                     inBlockComment = false;
-                } else if (trimmed.startsWith('/*')) {
-                    inBlockComment = true;
                 }
+            } else {
+                result.codeLines++;
             }
         }
         
