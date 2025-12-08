@@ -719,12 +719,10 @@ class RepositoryMapper {
             // If we are still in a block comment or found comment on this line, count it
             if (inBlockComment || lineIsComment) {
                 result.commentLines++;
-            } else {
-                result.codeLines++;
             }
         }
         
-        // Adjust code lines count
+        // Calculate code lines
         result.codeLines = lines.length - result.blankLines - result.commentLines;
         
         // Infer purpose
@@ -757,8 +755,6 @@ class RepositoryMapper {
                 if (trimmed.includes('*/')) {
                     inBlockComment = false;
                 }
-            } else {
-                result.codeLines++;
             }
         }
         
