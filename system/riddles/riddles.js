@@ -6,12 +6,14 @@ import { riddle as gatekeeperRiddle } from './gatekeeper.riddle.js';
 import { riddle as mirrorRiddle } from './mirror.riddle.js';
 import { riddle as the_paradox_of_progressRiddle } from './the-paradox-of-progress.riddle.js';
 import { riddle as the_river_that_remembersRiddle } from './the-river-that-remembers.riddle.js';
+import { riddle as the_archive_of_silenceRiddle } from './the-archive-of-silence.riddle.js';
 
 // Registry of all riddles
 export const riddles = [gatekeeperRiddle,
     mirrorRiddle,
     the_paradox_of_progressRiddle,
-    the_river_that_remembersRiddle];
+    the_river_that_remembersRiddle,
+    the_archive_of_silenceRiddle];
 
 // Get riddle by ID
 export function getRiddleById(id) {
