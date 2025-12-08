@@ -7,13 +7,15 @@ import { riddle as mirrorRiddle } from './mirror.riddle.js';
 import { riddle as the_paradox_of_progressRiddle } from './the-paradox-of-progress.riddle.js';
 import { riddle as the_river_that_remembersRiddle } from './the-river-that-remembers.riddle.js';
 import { riddle as the_archive_of_silenceRiddle } from './the-archive-of-silence.riddle.js';
+import { riddle as the_coin_that_never_landsRiddle } from './the-coin-that-never-lands.riddle.js';
 
 // Registry of all riddles
 export const riddles = [gatekeeperRiddle,
     mirrorRiddle,
     the_paradox_of_progressRiddle,
     the_river_that_remembersRiddle,
-    the_archive_of_silenceRiddle];
+    the_archive_of_silenceRiddle,
+    the_coin_that_never_landsRiddle];
 
 // Get riddle by ID
 export function getRiddleById(id) {
