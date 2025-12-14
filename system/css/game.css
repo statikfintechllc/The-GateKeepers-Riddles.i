@@ -6,8 +6,7 @@
 
 :root {
     --button-bar-height: 50px;
-    --input-min-height-desktop: 60px;
-    --input-min-height-mobile: 50px;
+    --input-text-height: 20px;
 }
 
 html {
@@ -121,8 +120,8 @@ h1 {
 
 input[type="text"] {
     width: 100%;
-    padding: 14px;
-    min-height: calc(var(--button-bar-height) + var(--input-min-height-desktop)); /* Ensure space for button bar below text */
+    padding: 8px 14px;
+    padding-bottom: calc(var(--button-bar-height) + 4px); /* Space for button bar */
     background: rgba(255, 255, 255, 0.05);
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
@@ -133,6 +132,7 @@ input[type="text"] {
     transition: all 0.3s ease;
     position: relative;
     z-index: 1;
+    line-height: 1.5;
 }
 
 input[type="text"]:focus {
@@ -585,8 +585,8 @@ button {
         gap: 8px;
     }
     input[type="text"] {
-        padding: 10px;
-        min-height: calc(var(--button-bar-height) + var(--input-min-height-mobile)); /* Ensure space for button bar below text */
+        padding: 6px 10px;
+        padding-bottom: calc(var(--button-bar-height) + 2px); /* Space for button bar */
         font-size: 14px;
     }
     button {
