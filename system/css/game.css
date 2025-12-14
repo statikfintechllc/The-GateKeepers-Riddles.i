@@ -120,7 +120,7 @@ h1 {
 input[type="text"] {
     width: 100%;
     padding: 14px;
-    padding-bottom: var(--button-bar-height); /* Make room for button bar */
+    min-height: calc(var(--button-bar-height) + 60px); /* Ensure space for button bar below text */
     background: rgba(255, 255, 255, 0.05);
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
@@ -584,7 +584,7 @@ button {
     }
     input[type="text"] {
         padding: 10px;
-        padding-bottom: var(--button-bar-height);
+        min-height: calc(var(--button-bar-height) + 50px); /* Ensure space for button bar below text */
         font-size: 14px;
     }
     button {
