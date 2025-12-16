@@ -119,8 +119,8 @@ h1 {
 
 input[type="text"] {
     width: 100%;
-    padding: 4px 14px 8px 14px;
-    min-height: 90px; /* Minimum height to contain text and button bar */
+    padding: 14px;
+    padding-bottom: var(--button-bar-height); /* Make room for button bar */
     background: rgba(255, 255, 255, 0.05);
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
@@ -131,8 +131,6 @@ input[type="text"] {
     transition: all 0.3s ease;
     position: relative;
     z-index: 1;
-    line-height: 1.5;
-    box-sizing: border-box;
 }
 
 input[type="text"]:focus {
@@ -585,8 +583,8 @@ button {
         gap: 8px;
     }
     input[type="text"] {
-        padding: 4px 10px 6px 10px;
-        min-height: 85px; /* Minimum height for mobile */
+        padding: 10px;
+        padding-bottom: var(--button-bar-height);
         font-size: 14px;
     }
     button {
