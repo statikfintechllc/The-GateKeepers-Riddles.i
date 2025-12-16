@@ -119,8 +119,8 @@ h1 {
 
 input[type="text"] {
     width: 100%;
-    padding: 8px 14px;
-    padding-bottom: calc(var(--button-bar-height) + 4px); /* Space for button bar */
+    padding: 12px 14px;
+    height: 70px; /* Fixed height to contain text and button bar */
     background: rgba(255, 255, 255, 0.05);
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
@@ -132,6 +132,7 @@ input[type="text"] {
     position: relative;
     z-index: 1;
     line-height: 1.5;
+    box-sizing: border-box;
 }
 
 input[type="text"]:focus {
@@ -584,8 +585,8 @@ button {
         gap: 8px;
     }
     input[type="text"] {
-        padding: 6px 10px;
-        padding-bottom: calc(var(--button-bar-height) + 2px); /* Space for button bar */
+        padding: 10px;
+        height: 65px; /* Fixed height for mobile */
         font-size: 14px;
     }
     button {
